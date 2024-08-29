@@ -1,0 +1,137 @@
+% Document setup
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\pagestyle{fancy}
+\lhead{Richard Whitehill}
+\chead{PHYS 804 -- HW \HWnum}
+\rhead{\duedate}
+\cfoot{\thepage \hspace{1pt} of \pageref{LastPage}}
+
+% Encoding
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Math/Physics Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{siunitx}
+
+\AtBeginDocument{\RenewCommandCopy\qty\SI}
+
+% Enumeration/itemize
+\usepackage{enumitem}
+\newenvironment{parts}
+{\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=-10pt]
+}{\end{enumerate}}
+
+% Reference Style
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=green
+}
+
+\newcommand{\eref}[1]{Eq.~(\ref{eq:#1})}
+\newcommand{\erefs}[2]{Eqs.~(\ref{eq:#1})--(\ref{eq:#2})}
+
+\newcommand{\fref}[1]{Fig.~\ref{fig:#1}}
+\newcommand{\frefs}[2]{Figs.~\ref{fig:#1}--\ref{fig:#2}}
+
+\newcommand{\tref}[1]{Table~\ref{tab:#1}}
+\newcommand{\trefs}[2]{Tables~\ref{tab:#1}-\ref{tab:#2}}
+
+% Figures and Tables 
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[font=small,labelfont=bf]{caption}
+
+\newcommand{\bef}{\begin{figure}[h!]\begin{center}}
+\newcommand{\eef}{\end{center}\end{figure}}
+
+\newcommand{\bet}{\begin{table}[h!]\begin{center}}
+\newcommand{\eet}{\end{center}\end{table}}
+
+% tikz
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{positioning}
+\usetikzlibrary{3d}
+\usetikzlibrary{shapes.geometric}
+
+% tcolorbox
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{xifthen}
+\usepackage{parskip}
+
+\newcommand*{\eqbox}{\tcboxmath[
+    enhanced,
+    colback=black!10!white,
+    colframe=black,
+    sharp corners,
+    size=fbox,
+    boxsep=8pt,
+    boxrule=1pt
+]}
+
+% problem-solution macros
+% \usepackage{adjustbox}
+\usepackage{changepage}
+
+\newtcolorbox{probbox}[1][]{
+    breakable,
+    enhanced,
+    boxrule=0pt,
+    frame hidden,
+    borderline west={4pt}{0pt}{green!50!black},
+    colback=green!5,
+    before upper=\textbf{Problem #1) \,},
+    % \textbf{Problem #1 \ifthenelse{\isempty{#1}}{}{: #1} \\ },
+    sharp corners,
+    parbox=false
+}
+
+% \newtcolorbox{ProblemBox}[1][]{%
+%   breakable,
+%   enhanced,
+%   colback=black!10!white,
+%   colframe=black,
+%   title={\large #1 \hfill}
+% }
+\newcommand{\prob}[2]{
+\begin{probbox}[#1]
+#2
+\end{probbox}
+}
+
+\newenvironment{solution}{\begin{adjustwidth}{8pt}{8pt}}{\end{adjustwidth}}
+\newcommand{\sol}[1]{
+\begin{solution}
+#1
+\end{solution}
+}
+% \textbf{#1)} #2}
+
+% Miscellaneous Definitions/Settings
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\rationals}{\mathbb{Q}}
+\newcommand{\complexs}{\mathbb{C}}
+
+\setlength{\parskip}{\baselineskip}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{14.49998pt}
+\addtolength{\topmargin}{-2.49998pt}
+
