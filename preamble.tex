@@ -123,6 +123,52 @@
 }
 % \textbf{#1)} #2}
 
+
+% Listings
+
+\definecolor{background}{RGB}{245,245,246}
+\definecolor{rule}{RGB}{224,224,224}
+\definecolor{keyword}{RGB}{0,128,0}
+\definecolor{comment}{RGB}{172,191,206}
+
+\lstdefinestyle{mystyle}{
+    frame=trbl,
+    basicstyle=\footnotesize,
+    backgroundcolor=\color{background},
+    rulecolor=\color{rule},
+    commentstyle=\color{CadetBlue},
+    keywordstyle=\color{keyword}\bfseries,
+    keywordstyle={[2]\color{keyword}},
+    numberstyle=\color{green},
+    stringstyle=\color{red},
+    commentstyle=\color{CadetBlue},
+    showstringspaces=false,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbersep=5pt,
+    showspaces=false,
+    showtabs=false,
+    tabsize=2,
+    columns=fixed,
+}
+
+\lstset{style=mystyle}
+
+\lstnewenvironment{python}{
+\lstset{
+	language=Python,
+	otherkeywords={as},
+	emph={self},
+	emphstyle=\color{Blue}
+}
+}
+{}
+
+\NewDocumentCommand{\inputpython}{m}{\lstinputlisting[language=Python]{#1}}
+
+
 % Miscellaneous Definitions/Settings
 \newcommand{\reals}{\mathbb{R}}
 \newcommand{\integers}{\mathbb{Z}}
