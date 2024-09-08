@@ -15,16 +15,16 @@ Later we may use these problems for midterm projects.
 
 \sol{
 
-Certainly, there are many problems encountered during a conventional university physics education at both the undergraduate and graduate levels.
+Certainly, there are many problems encountered during a conventional university physics education at both the undergraduate and graduate levels which are not analytically tractable.
 A few problems are discussed below from classical mechanics, electrodynamics, and quantum mechanics.
 
-First, we discuss a couple examples from classical mechanics.
+First, we discuss a simple example from classical mechanics.
 Early on in any physicist's academic journey, they encounter projectile motion but soon realize that one can only include air resistance or drag and still solve the equations of motion analytically in a few special cases.
 In particular, the relevant equation of motion for a projectile of mass $m$ moving in a uniform gravitational field near the surface of the earth under drag is
 \begin{align}
     m \ddot{\vb*{r}}(t) = - g \vu*{z} + (b v + c v^2) \vu*{v}
 ,\end{align}
-where we have oriented our $z$ axis pointing away from the surface of the earth, $b,c$ are drag coefficients, and $\vu*{v} = \dot{r} / |\dot{r}|$ is the velocity unit vector.
+where we have oriented our $z$ axis pointing away from the surface of the earth, $b,c$ are drag coefficients, and $\vu*{v} = \dot{\vb*{r}} / |\dot{\vb*{r}}|$ is the velocity unit vector.
 Of course, if $c \ne 0$, we are immediately sunk.
 There is no mathematical machinery available to us to solve such a non-linear equation in closed form.
 There are several numerical schemes, however, which allow us to construct an approximate solution to this differential equation for some specified initial conditions.
@@ -49,9 +49,13 @@ Another more clever and computationally efficient scheme is to devise artificial
 Lastly, a problem from quantum mechanics that could be interesting to solve numerically is the atomic spectrum of elements with more than one electron.
 Because a multi-electron system is a three-body system or even more expansive than that, the Sch\"{o}dinger equation
 \begin{align}
-\hat{H} \psi(\vb*{x}_{1},\ldots,\vb*{x}_{n}) = \sum_{i} \Bigg[ -\frac{\hbar^2}{2m_{i}} \grad_{i}^2 + \frac{e^2}{8 \pi \epsilon_0} \sum_{j \ne i} \frac{1}{|\vb*{x}_{i} - \vb*{x}_{j}|} \Bigg] \psi(\vb*{x}_{1},\ldots,\vb*{x}_{n}) = E \psi(\vb*{x}_{1},\ldots,\vb*{x}_{n})
+\hat{H} \psi(\vb*{x}_{1},\ldots,\vb*{x}_{n})= E \psi(\vb*{x}_{1},\ldots,\vb*{x}_{n})
+,\end{align}
+where
+\begin{align}
+    \hat{H} = \sum_{i} \Bigg[ -\frac{\hbar^2}{2m_{i}} \grad_{i}^2 - \frac{Z e^2}{4 \pi \epsilon_0} \frac{1}{|\vb*{x}_{i}|} + \frac{e^2}{8 \pi \epsilon_0} \sum_{j \ne i} \frac{1}{|\vb*{x}_{i} - \vb*{x}_{j}|} \Bigg]
 .\end{align}
-becomes nonlinear and impossible to solve using analytic mathematical methods.
+becomes nonlinear and impossible to solve using analytic mathematical methods, although it is critical for spectral analysis in many fields that such systems are understood.
 
 }
 
@@ -64,7 +68,8 @@ Briefly describe software that you are using
 
 \sol{
 
-I plan to primarily use \textit{Python3} on my personal Mac computer.
+I plan to primarily use \textit{Python3} on my personal Mac computer, which will be typeset in the Vim text editor within the terminal environment.
+Typically, although not for this course, I also utilize Jupyter notebooks for smaller simulations, data analysis, and graphical visualizations.
 
 }
 
@@ -86,7 +91,7 @@ Choose you way to input $a$, $b$, and $c$.
 The code used to solve the problem described above is shown below in \fref{quadratic-equation}.
 The primary function takes three real numbers as input and prints the two (possibly complex) roots of the function $f(x) = ax^2 + bx + c$.
 Note that there are three distinct categories of solutions, governed by the value of the discriminant $D = b^2 - 4ac$.
-If $D \geq 0$, then $\sqrt{D}$ is a purely real number and the solutions can be found via real number arithmetic.
+If $D \geq 0$, then $\sqrt{D}$ is a purely real number and the solutions are real numbers.
 Of course, if $D = 0$, then we only have one root of multiplicity two.
 Alternatively, if $D < 0$, then $\sqrt{D} = i \sqrt{|D|}$ is purely imaginary, and the roots are complex conjugates of each other, where the real part is $b/(2a)$ and the imaginary parts are $\pm \sqrt{|D|}/(2a)$.
 
@@ -101,7 +106,7 @@ Alternatively, if $D < 0$, then $\sqrt{D} = i \sqrt{|D|}$ is purely imaginary, a
 
 \prob{4}{
 
-Write a profram that calculates a series of Fibonacci numbers and checks which ones are prime numbers.
+Write a program that calculates a series of Fibonacci numbers and checks which ones are prime numbers.
 Explore what is the largest Fibonacci number you may get with your code.
 
 }
@@ -110,18 +115,17 @@ Explore what is the largest Fibonacci number you may get with your code.
 
 There are two main functions used in the script shown in \fref{fibonacci-prime} implementing the solution of the prompt above: \textit{is\_prime} and \textit{get\_fibonacci}.
 The former simply checks whether an input number is prime by looping through candidate integer factors.
-Note that since any number less than two is non-prime by definition but not properly checked by the loop, we hard code at the beginning of the function that the function returns \textit{False}.
+Note that since any number less than two is non-prime by definition but not properly checked by the loop, it is hard coded at the beginning of the function that the function returns \textit{False}.
 The latter function generates the fibonacci series, which is defined as the arithmetic sequence with $a_0 = 0$, $a_1 = 1$, and $a_{n+1} = a_{n} + a_{n-1}$.
 The first optional parameter \textit{iter\_max} defines the maximum number of extra numbers in the sequence which are generated and is by default $100$.
-Additionally, the \textit{check\_prime} parameter is of boolean and governs whether the printing portion of the function checks whether the sequence entries are prime and is by default set to \textit{True}.
+Additionally, the \textit{check\_prime} parameter is of boolean type and governs whether the printing portion of the function checks whether the sequence entries are prime and is by default set to \textit{True}.
 Note that the sequence generation can produce arbitrarily large numbers very quickly, limited only by the hardware on one's computer.
 However, because the prime number checking is very primitive, the while loop must search through roughly $\sqrt{N}$ numbers if the input is indeed not prime.
-It was checked that by roughly the 85$^{\rm th}$ entry of the Fibonacci sequence, the speed of hthe prime functionality degrades.
+It was checked that by roughly the 85$^{\rm th}$ entry of the Fibonacci sequence, the speed of the prime functionality degrades.
 This could be improved in a few ways.
 First, there are some useful tricks to test factorization of small numbers.
-For example, if a number is not even, no even number should be a candidate, and if the sum of the digits is not divisible by 3, then the number is not divisible by 3 or any multiple thereof.
+For example, if a number is not even, no even number should be a candidate, and if the sum of the digits is not divisible by 3, then the number is not divisible by 3 or any multiple thereof, and so on.
 Additionally, one could implement some parallelization to check candidates.
-
 
 
 \begin{figure}
