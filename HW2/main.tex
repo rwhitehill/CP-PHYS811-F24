@@ -1,0 +1,120 @@
+\input{../preamble.tex}
+\def\HWnum{2}
+\def\duedate{September 17, 2024}
+
+
+\begin{document}
+
+
+\prob{1}{
+
+Exploring RNGs:
+
+\begin{parts}
+
+    \item Master using a random number generator available for you.
+        Your preference should go, if possible, with the Mersenne Twister generator.
+
+    \item Calculate $5-{\rm th}$ moment of the random number distribution and compare with the expected value.
+        Explore how your agreement with the expected value changes as you increase the number of generated random numbers.
+
+    \item Calculate the near-neighbor correlation for $(x_{i},x_{i+5})$ and compare with the expected analytical value.
+    
+\end{parts}
+
+}
+
+\sol{}
+
+
+\prob{2}{
+
+Generating non-uniform distribution:
+
+\begin{parts}
+
+    \item Write a code that can generate non-uniform distributions of random numbers based on one, or two or all three of the methods, namely, the rejectino method, the transformation method (when possible), and the Metropolis algorithm (importance sampling)
+
+    \item Use your code to generate the following non-uniform distributions:
+        \begin{enumerate}
+            \item $p(y) = \frac{1}{a} \exp(-y/a)$  (Poisson distribution)
+
+            \item $p(y) = \frac{2}{\pi} \frac{a}{a^2 + y^2}$ (Cauchy-Lorentz distribution)
+
+            \item $p(y) = \frac{1}{\sigma \sqrt{2 \pi}} \exp(-\frac{1}{2}(\frac{y- \mu}{\sigma})^2)$
+        \end{enumerate}
+
+    \item Analyze the quality of your distributions in any way you find appropriate.
+
+    \item Explore if any of of the above distributions are available to you with either C++, or Python, or MatLab libraries.
+
+\end{parts}
+
+}
+
+\sol{}
+
+
+
+\prob{3}{
+
+Evaluate the following integrals using the two above methods (the mean value and rejection) for various numbers of points $N = 10, 10^{2}, 10^{3}, 10^{4}, 10^{5}$.
+Evaluate the errors and explain your results.
+
+\begin{parts}
+
+    \item $\int_{0}^{\pi} \sin{x} \dd{x}$
+    
+    \item $\int_{0}^{1} \frac{\dd{x}}{1 - 0.998 x^2}$ 
+        
+    \item $\int_{0}^{2\pi} x \sin(12x) \cos(24x)$
+
+    \item $\int_{0}^{2} \sin^2[\frac{1}{x(2-x)}]$
+    
+\end{parts}
+
+}
+
+\sol{}
+
+
+\prob{4}{
+
+Compute the following integrals:
+
+\begin{parts}
+
+    \item A double integral over a rectangular region
+        \begin{align}
+            \int_{0}^{1} \int_{0}^{2} \sin(x^2 + y^2) \dd{x} \dd{y}
+        .\end{align}
+
+    \item A double integral over a circular region:
+        \begin{align}
+            \int_{\rm circle} e^{-(x^2 + y^2)} \dd{x} \dd{y}
+        ,\end{align}
+        where the circle is centered at the origin with radius $1$.
+
+    \item A double integral over a non-rectangular region
+        \begin{align}
+            \int_{0}^{1} \int_{0}^{1-x} (x+y) \dd{y} \dd{x}
+        .\end{align}
+
+    \item Four-dimensional integral
+        \begin{align}
+            \int_{0}^{1} \int_{0}^{1} \int_{0}^{1} \int_{0}^{1} \int_{0}^{1} e^{-(x_1^2 + x_2^2 + x_3^2 + x_4^2)} \dd{x_1} \dd{x_2} \dd{x_3} \dd{x_4}
+        .\end{align}
+
+    \item Four-dimensional integral over a spherical region
+        \begin{align}
+            I = \int_{\rm sphere} (x^2 + y^2 + z^2 + w^2) e^{-(x^2 + y^2 + z^2 + w^2)} \dd{x} \dd{y} \dd{z} \dd{w}
+        .\end{align}
+    
+\end{parts}
+
+}
+
+    
+\end{document}
+
+
