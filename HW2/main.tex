@@ -346,6 +346,21 @@ From this sample, we excise those points which do not satisfy $r = \sqrt{x_1^2 +
 .\end{align}
 While, I did not investigate, there may be a way to generate a uniform sample in ``hyperspherical'' coordinates and transform back to Cartesian coordinates before averaging over function values, allowing one to avoid wasting any samples.
 
+{\color{red} 
+
+It was pointed out that the answers above are incorrect, and upon checking, this statement is true.
+In the initial implementation, I forgot to multiply by the area enclosed by the integration domain.
+With these amendments, the results are as follows:
+\begin{align}
+    I_1 &= 0.871 \\
+    I_2 &= 1.986 \\
+    I_3 &= 0.333 \\
+    I_4 &= 0.311 \\
+    I_5 &= 1.585
+.\end{align}
+
+}
+
 
 \inputpython{prob4.py}
 
