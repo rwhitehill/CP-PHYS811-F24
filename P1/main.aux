@@ -2,10 +2,13 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
 \HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
 \global\let\oldnewlabel\newlabel
 \gdef\newlabel#1#2{\newlabelxx{#1}#2}
 \gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
 \AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
 \let\newlabel\oldnewlabel
 \fi}
 \fi}
@@ -14,13 +17,30 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{eq:LJ-N-particle-potential}{{1}{1}{Introduction}{equation.1.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Lennard-Jones potential between two particles as described by Eq.\nobreakspace  {}(\ref  {eq:LJ-N-particle-potential}).\relax }}{1}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:1d-LJ-potential}{{1}{1}{Lennard-Jones potential between two particles as described by \eref {LJ-N-particle-potential}.\relax }{figure.caption.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Framework}{1}{section.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Theoretical framework}{1}{subsection.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Code setup and description}{1}{subsection.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Results}{1}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Conclusion}{1}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A}Code Listing}{1}{appendix.A}\protected@file@percent }
-\newlabel{LastPage}{{}{1}{}{page.1}{}}
-\xdef\lastpage@lastpage{1}
-\xdef\lastpage@lastpageHy{1}
-\gdef \@abspage@last{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Code setup and description}{3}{subsection.2.2}\protected@file@percent }
+\newlabel{ssec:code-setup-and-description}{{2.2}{3}{Code setup and description}{subsection.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}A brief discussion of hyperparameters}{4}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Results}{5}{section.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Results of random walk minimization for $N = 2$.\relax }}{5}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:track-min2}{{2}{5}{Results of random walk minimization for $N = 2$.\relax }{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Results of random walk minimization for $N =3$.\relax }}{6}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:track-min3}{{3}{6}{Results of random walk minimization for $N =3$.\relax }{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Results of random walk minimization for $N =4$.\relax }}{6}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:track-min4}{{4}{6}{Results of random walk minimization for $N =4$.\relax }{figure.caption.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Results of random walk minimization for $N = 10$.\relax }}{6}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:track-min10}{{5}{6}{Results of random walk minimization for $N = 10$.\relax }{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Conclusion}{6}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Code Listing}{6}{appendix.A}\protected@file@percent }
+\newlabel{app:code-listing}{{A}{6}{Code Listing}{appendix.A}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Results of batch random walk minimization for $N = 4$.\relax }}{7}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:batch-min4}{{6}{7}{Results of batch random walk minimization for $N = 4$.\relax }{figure.caption.6}{}}
+\newlabel{LastPage}{{}{7}{}{page.7}{}}
+\xdef\lastpage@lastpage{7}
+\xdef\lastpage@lastpageHy{7}
+\gdef \@abspage@last{7}
