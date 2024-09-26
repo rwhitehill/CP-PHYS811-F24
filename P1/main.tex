@@ -9,7 +9,7 @@
 
 There are many problems in physics which require minimizing some function with respect to some set of variables.
 Of course, many problems in coursework are designed such that the derivatives of the functions of interest can be analytically manipulated to yield a root, or in the worst case, the root can be obtained easily by utilizing graphical methods.
-However, practically speaking, most functions are difficult to analytically manipulate to yield closed form expressions for the extrema, and when our function depends on a large set of variables, we cannot easily plot the desired function to make direct estimates of the extrema.
+However, practically speaking, most functions are difficult to analytically manipulate in order to yield closed form expressions for the extrema, and when our function depends on a large set of variables, we cannot easily plot the desired function to make direct estimates of the extrema.
 That is, to some degree, we are blind to the location of a function's extrema when the dimensionality exceeds our three-dimensional intuition.
 
 In particular, one problem of interest is minimizing the energy of a configuration of particles comprising a molecule.
@@ -193,27 +193,40 @@ In these cases, we already run into the issue of finding local minima.
 
 In \fref{batch-min4}, we display the results of running a batch of minimizations, and as desired, we are able to separate the global minimum from the ensemble of local minima.
 Note, though, that the current implementation in a for loop is a very crude and inefficient one.
-To generate \fref{batch-min4}, we sampled 100 different initial configurations, and the minimization 
-, and as discussed above, this approach should ideally be parallelized.
+To generate \fref{batch-min4}, we sampled 100 different initial configurations, and it took nearly 20 minutes on my Mac laptop to minimize all the configurations, although, on average takes less than a minute per configuration to minimize.
+As discussed above, this approach should ideally be parallelized to increase efficiency.
 
 \begin{figure}[h!tb]
     \centering
     \includegraphics[width=0.8\textwidth]{batch_min4.pdf}
-    \caption{Results of batch random walk minimization for $N = 4$.}
+    \caption{Results of a batch random walk minimization for $N = 4$.}
     \label{fig:batch-min4}
 \end{figure}
 
 
 \section{Conclusion}
 
-
+In this article, we have described the minimization of the Lennard-Jones potential for a system of $N$-particles, analytically and numerically via a random walk Monte Carlo procedure.
+While the implementation of the numerical scheme is somewhat crude, we have discussed a few possible adjustments to increase its efficiency.
+Alternatively, one could also implement other methods to minimize the potential.
+Within the class of Monte Carlo methods, we could utilize some importance sampling or Markov chain method, which would sample the potential and allow us to explore the configuration space in a different way.
+There are also minimization procedures that are not based on Monte Carlo methods such gradient descent.
+Such methods require more knowledge of the function being minimized or additional numerical schemes to be implemented, but may be better suited for this problem.
+Whichever scheme is implemented, there are associated unique issues, but the issue of becoming stuck in local minima is a ubiquitous one, requiring careful consideration in a more serious research setting.
 
 \appendix
 
 \section{Code Listing}
 \label{app:code-listing}
 
-What the section title says
+\textbf{Main python script}
+\inputpython{main.py}
+
+\textbf{Script for single configuration minimization}
+\inputpython{single.py}
+
+\textbf{Script for batch configuration minimization}
+\inputpython{batch.py}
 
     
 \end{document}
