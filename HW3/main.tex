@@ -1,0 +1,115 @@
+\include{../preamble.tex}
+\def\HWnum{3}
+\def\duedate{October 5, 2024}
+
+\begin{document}
+
+\prob{1}{
+
+A set of three integrals for testing numerical integration:
+\begin{align}
+    \int_{0}^{1} x^3 \dd{x} = \frac{1}{4}, \quad \int_{0}^{1} e^{x} \dd{x} = e - 1, \quad \int_{0}^{\pi} \sin{x} \dd{x}
+.\end{align}
+
+\begin{parts}
+
+    \item Write a program (that will be your code 1) that calculates an integral with a given integrand $f(x)$ in the region $[a,b]$ by one of the Newton-Cotes rules with $n \geq 1$ (the trapezoid rule, or 3-point Simpson's rule, or 5-point Boole's rule or higher) and test it on the set of three ``test'' integrals.
+        Explore how the accuracy changes with the number of integrals.
+
+    \item Upgrade/modify your code (that will be your code 2) to include the error estimate based on calculations for two step sizes $h$ and $h/2$.
+        You can find the error estimation in the lecture notes (see ``Extrapolation and Romberg integration'').
+        Test your code with the set of three test integrals.
+        Now you have a tool to estimate accuracy of numerical integration.
+
+    \item Write a program (that will be your code 3) that calculates an integral from $f(x)$ in the region $[a,b]$ by using Gauss quadratures for 10 points.
+        Coefficients for Gauss quadratures can be found in Abramowitz and Tegun ``Handbook of Mathematical Functions'', or on the web.
+        Again, test your code with the three test integrals.
+
+    \item Find an integration routine (preferably adaptive) you can use with the language of your choice (Python, C$++$, or MatLab).
+        That will be your code 4.
+        Again, test your routine with the three test integrals.
+    
+\end{parts}
+
+}
+
+\sol{}
+
+
+\prob{2}{
+
+Evaluate the following integrals using your codes 2, 3, and 4:
+\begin{parts}
+   
+\item $\displaystyle \int_{0}^{1} \frac{1}{1-0.998 x^2} \dd{x}$
+
+\item $\displaystyle \int_{0}^{2\pi} x \sin(30 x) \cos(50 x)$
+    
+\item $\displaystyle \int_{0}^{1} \frac{x}{e^{x} - 1} \dd{x}$
+
+\item $\displaystyle \int_{0}^{1} x \sin(\frac{1}{x}) \dd{x}$
+
+\end{parts}
+
+Report if one of your codes fails to compute some of the integrals.
+Explain why.
+
+}
+
+\sol{}
+
+
+\prob{3}{
+
+Evaluate numerically following improper integrals (you may need to modify one of your codes).
+There are multiple ways to evaluate improper integrals.
+Explain your choice and results.
+\begin{parts}
+
+\item $\displaystyle \int_{0}^{\infty} \frac{e^{-x^2}}{x^2 + 1} \dd{x}$
+
+\item $\displaystyle \int_{0}^{\infty} \frac{x \sin{x}}{x^2 + 1} \dd{x}$
+
+\item $\displaystyle \int_{0}^{\infty} e^{-\sqrt{x}} \cos(2x) \dd{x}$
+    
+\end{parts}
+
+}
+
+\sol{}
+
+
+\prob{4}{
+
+Evaluate numerically following principal value integrals using one of techniques for princpal value integrals (again, you may need to modify one of your codes).
+
+\begin{parts}
+
+\item $\displaystyle \int_{0}^{1} \frac{1}{x^{1/3}} \dd{x}$
+
+\item $\displaystyle \int_{-1}^{1} \Big( 1 + \frac{1}{x} \Big) \dd{x}$
+
+\item $\displaystyle \int_{-\infty}^{\infty} \frac{1}{(x - 1)(x^2 + 1)} \dd{x}$
+    
+\end{parts}
+
+}
+
+\sol{}
+
+
+\prob{5}{
+
+Evaluate numerically following double integrals.
+\begin{parts}
+
+\item $\displaystyle \int_{-1}^{1} \dd{x} \int_{0}^{2} \dd{y} \sin(x^2 + y^2)$
+
+\item $\displaystyle \int_{0}^{1} \dd{x} \int_{0}^{1-x} \dd{y} \frac{1}{\sqrt{x + y} (1 + x + y)^2}$
+    
+\end{parts}
+
+}
+
+    
+\end{document}
