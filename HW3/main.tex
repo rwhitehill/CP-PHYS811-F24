@@ -33,7 +33,125 @@ A set of three integrals for testing numerical integration:
 
 }
 
-\sol{}
+\sol{
+
+(a) In general, we would like to approximate the integral
+\begin{align}
+    I = \int_{a}^{b} f(x) \dd{x}
+,\end{align}
+which can be done as a weighted sum
+\begin{align}
+    I \approx \sum_{i} w_i f(x_{i})
+.\end{align}
+Of course, it befalls us to choose a good set of $x_{i}$ and weights $w_{i}$ in order to obtain a good approximation for $I$.
+A generic Newton-Cotes integration rule is derived by approximating the function $f(x)$ over the integration domain with an interpolating polynomial $L(x)$:
+\begin{align}
+    I = \int_{a}^{b} f(x) \dd{x} \approx \int_{a}^{b} L(x) \dd{x}
+.\end{align}
+In the Lagrange interpolation scheme, if we have a set of sample points $\{ (x_0,f(x_0)),\ldots,(x_{n},f(x_{n})) \}$, we can interpolate $f(x)$ with an $n^{\rm th}$ order polynomial
+\begin{align}
+    L(x) = \sum_{i=0}^{n} f(x_{i}) l_{i}(x)
+,\end{align}
+where $\{l_{i}(x)\}$ is the interpolating basis and $l_{i}(x_{j}) = \delta_{ij}$.
+Thus, with the Newton-Cotes scheme
+\begin{align}
+    I \approx \sum_{i=0}^{n} f(x_{i}) \int_{a}^{b} l_{i}(x) \dd{x}
+.\end{align}
+Thus, the weights are just the integrals of the interpolating polynomials.
+For this work, we implement the simplest Newton-Cotes rule, which is equivalent to the trapezoid rule.
+We first break the integration region into $N$ intervals, giving us a sub-interval width $h = (b - a) / N$ and $N+1$ sample points $\{ a=x_0,\ldots,x_{i},x_{i+1},\ldots,x_{N}=b \}$.
+Using a simple linear interpolation for the sub-interval $[x_{i},x_{i+1}]$, our Lagrange basis is
+\begin{align}
+    l_{1}(x) = \frac{x - x_{i+1}}{x_{i} - x_{i+1}} = -\frac{x - x_{i+1}}{h}, \quad l_{2}(x) = \frac{x - x_{i}}{h}
+,\end{align}
+and
+\begin{align}
+    \int_{x_{i}}^{x_{i+1}} l_{1}(x) \dd{x} = -\frac{(x - x_{i+1})^2}{h} \Big|_{x_{i}}^{x_{i+1}} = \frac{h}{2} \\
+    \int_{x_{i}}^{x_{i+1}} l_{2}(x) \dd{x} = \frac{(x - x_{i})^2}{h} \Big|_{x_{i}}^{x_{i+1}} = \frac{h}{2}
+.\end{align}
+Thus, over the sub-interval $[x_{i},x_{i+1}]$
+\begin{align}
+    \int_{x_{i}}^{x_{i+1}} f(x) \dd{x} \approx \frac{h}{2} ( f(x_{i+1}) + f(x_{i}) )
+.\end{align}
+If we now sum over all the sub-intervals, we find
+\begin{align}
+    \int_{a}^{b} f(x) \dd{x} &= \sum_{i=0}^{N} \int_{x_{i}}^{x_{i+1}} f(x) \dd{x} \approx \frac{h}{2} \sum_{i=0}^{N} [ f(x_{i}) + f(x_{i+1}) ] \nonumber \\
+                             &= \frac{h}{2}[ f(x_{0}) + 2 f(x_{1}) + \ldots + 2 f(x_{n-1}) + f(x_{n}) ]
+.\end{align}
+
+
+(b) Romberg integration is a method which uses the following motivation.
+Let us denote our approximate integral, which is a function of the step-size $h$ of our sub-intervals, as $I(h)$, where the exact result
+\begin{align}
+    I = I(h) + \sum_{k=0}^{\infty} a_{k} h^{n+km}
+,\end{align}
+where $n,m$ are some integers.
+In particular, if we compute our integral at two step-sizes $h$ and $h/N$, we have
+\begin{align}
+    I &= I(h) + a_0 h^{n} + \sum_{k=1}^{\infty} a_{k} h^{n+km} \\
+    I &= I(h/N) + a_0 (h/N)^{n} + \sum_{k=1}^{\infty} a_{k} (h/N)^{n+km}
+.\end{align}
+We then have
+\begin{align}
+    0 = I(h) - I(h/N) + a_0 h^{n} \Big( 1 - \frac{1}{N^{n}} \Big) \Rightarrow a_0 h^{n} = \frac{N^{n}}{N^{n} - 1} \Big[ I(h/N) - I(h) \Big]
+,\end{align}
+where we have neglected $\mathcal{O}(h^{n+m})$ terms.
+This is effectively gives us an estimate of our trapezoidal integrations and an extrapolated value for the integral
+\begin{align}
+    I \approx I(h/N) + a_0 (h/N)^{n} = I(h/N) + \frac{1}{N^{n} - 1} \Big[ I(h/N) - I(h) \Big]
+.\end{align}
+
+
+(c) We now discuss Gauss-Legendre quadrature.
+First, we make the change of variables $x = \frac{b-a}{2} t + \frac{a+b}{2}$ such that
+\begin{align}
+    I = \int_{a}^{b} f(x) \dd{x} = \int_{-1}^{1} \frac{b-a}{2} f(x(t)) \dd{t}
+.\end{align}
+Again, we would like to find suitable weights and sample points $\{ (w_{i},x_{i}) \}$ such that
+\begin{align}
+    I \approx \sum_{i=1}^{n} w_{i} f(x_{i})
+.\end{align}
+Our inspiration here is the Taylor expansion
+\begin{align}
+    f(x(t)) = \sum_{n=0}^{2N-1} a_{n} t^{n} + \mathcal{O}(t^{2N}) \approx p_{2N-1}(t)
+,\end{align}
+over the interval $[-1,1]$.
+At this point, we would like to define our weights and sample points such that 
+\begin{align}
+    \int_{-1}^{1} p_{2N-1}(t) \dd{t} = \sum_{i=1}^{N} w_{i} p_{2N-1}(t_{i})
+.\end{align}
+Following through, we have
+\begin{gather}
+    \sum_{n=0}^{2N-1} a_{n} \frac{1 - (-1)^{n+1}}{n+1} = \sum_{i=0}^{N} w_{i} \sum_{n=0}^{2N-1} a_{n} t_{i}^{n} \Rightarrow
+    \sum_{i=1}^{N} w_{i} t_{i}^{n} = \frac{1 + (-1)^{n}}{n+1}
+\end{gather}
+for all $n \in \{0,\ldots,2N-1\}$.
+We thus have $2N$ -- not necessarily linear -- equations for $2N$ unknowns.
+Let us solve this for a the simplest case of $N = 1$.
+First, for $N = 1$, we have only two equations
+\begin{align}
+    \begin{cases}
+        w_1 + w_2 = 2 \\
+        w_1 t_1 + w_2 t_2 = 0 \\
+        \displaystyle w_1 t_1^2 + w_2 t_2^2 = \frac{2}{3} \\
+        w_1 t_1^3 + w_2 t_2^3 = 0
+    .\end{cases}
+\end{align}
+Carrying out the algebra, one finds $w_{1} = w_{2} = 1$ and $t_{1} = -t_{2} = 1/\sqrt{3}$.
+One could continue producing weights and sample points for larger $N$, but it turns out that we can be a little bit more clever in how we determine them.
+While the details are beyond the scope of this report, we can choose our points $t_{i}$ such that they are roots of the $N^{\rm th}$ Legendre polynomial, $P_{N}(t)$.
+That is $P_{N}(t_{i}) = 0$.
+These roots have several nice properties, including that they are symmetrically distributed about $t = 0$ and all distinct.
+The corresponding weights are given by
+\begin{align}
+    w_{i} = \frac{2}{(1 - t_{i}^2) [P_{N}'(t_{i})]^2}
+.\end{align}
+These weights and roots are tabulated within the \textit{numpy} library, and as such, we can pulled up to an arbitrarily large $N$.
+Before concluding, it should be noted that the sucess of this method depends on the behavior of our integrand.
+That is, our function and its derivatives should be reasonably smooth in order to be well approximated by a sufficiently low-order polynomial over the integration range of interest.
+
+
+}
 
 
 \prob{2}{
@@ -76,7 +194,16 @@ Explain your choice and results.
 
 }
 
-\sol{}
+\sol{
+
+While there are nicer methods to handle improper integrals such as these, we can make a simple substitution to map our infinite domain of integration onto a finite domain:
+\begin{align}
+    x = \tan{u} \Rightarrow \int_{a}^{b} f(x) \dd{x} = \int_{\arctan(a)}^{\arctan(b)} \frac{f(\tan{u})}{\cos^2{u}} \dd{u}
+.\end{align}
+Notice that if $a = \infty$, then $\arctan{a} = \pi/2$, or if $b = -\infty$, then $\arctan{b} = -\pi/2$.
+With this, we can employ the integration techniques from Problem 1 with some caveats.
+
+}
 
 
 \prob{4}{
@@ -108,6 +235,24 @@ Evaluate numerically following double integrals.
 \item $\displaystyle \int_{0}^{1} \dd{x} \int_{0}^{1-x} \dd{y} \frac{1}{\sqrt{x + y} (1 + x + y)^2}$
     
 \end{parts}
+
+}
+
+\sol{
+
+For these multi-dimensional integrations, we utilize the iterative intregration scheme.
+That is, our integral of interest is
+\begin{align}
+    I = \int_{a}^{b} \dd{x} \int_{y_1(x)}^{y_2(x)} \dd{y} f(x,y) = \int_{a}^{b} \dd{x} F(x)
+,\end{align}
+where 
+\begin{align}
+    F(x) = \int_{y_1(x)}^{y_2(x)} \dd{y} f(x,y)
+.\end{align}
+Now we can set up $F(x)$ as a function, which employs one integration over the variable $y$ at a given $x$, and set up a second integration of $F(x)$.
+While Gaussian quadrature performs nicer than Monte Carlo integration in one dimension over a large set of functions, one can appreciate here the utility of Monte Carlo methods for higher-dimensional integrations.
+If one uses Gaussian quadrature with $n$ points for each integration dimension, then in total we will require $n^D$ points for an integral over $D$ variables, which is exponentially poor.
+However, as we have learned previously, if we sample the integrand, we may hope to reduce the number of points needed to evaluate the integral.
 
 }
 
