@@ -8,7 +8,7 @@
 
 A set of three integrals for testing numerical integration:
 \begin{align}
-    \int_{0}^{1} x^3 \dd{x} = \frac{1}{4}, \quad \int_{0}^{1} e^{x} \dd{x} = e - 1, \quad \int_{0}^{\pi} \sin{x} \dd{x}
+    \int_{0}^{1} x^3 \dd{x} = \frac{1}{4}, \quad \int_{0}^{1} e^{x} \dd{x} = e - 1, \quad \int_{0}^{\pi} \sin{x} \dd{x} = 2
 .\end{align}
 
 \begin{parts}
@@ -48,7 +48,7 @@ A generic Newton-Cotes integration rule is derived by approximating the function
 \begin{align}
     I = \int_{a}^{b} f(x) \dd{x} \approx \int_{a}^{b} L(x) \dd{x}
 .\end{align}
-In the Lagrange interpolation scheme, if we have a set of sample points $\{ (x_0,f(x_0)),\ldots,(x_{n},f(x_{n})) \}$, we can interpolate $f(x)$ with an $n^{\rm th}$ order polynomial
+In the Lagrange interpolation scheme, if we have a set of sample points $\{ (x_0,f(x_0)),\ldots,\\ (x_{n},f(x_{n})) \}$, we can interpolate $f(x)$ with an $n^{\rm th}$ order polynomial
 \begin{align}
     L(x) = \sum_{i=0}^{n} f(x_{i}) l_{i}(x)
 ,\end{align}
@@ -78,6 +78,7 @@ If we now sum over all the sub-intervals, we find
     \int_{a}^{b} f(x) \dd{x} &= \sum_{i=0}^{N} \int_{x_{i}}^{x_{i+1}} f(x) \dd{x} \approx \frac{h}{2} \sum_{i=0}^{N} [ f(x_{i}) + f(x_{i+1}) ] \nonumber \\
                              &= \frac{h}{2}[ f(x_{0}) + 2 f(x_{1}) + \ldots + 2 f(x_{n-1}) + f(x_{n}) ]
 .\end{align}
+Results using the Trapezoidal integration are shown in \fref{prob1}.
 
 
 (b) Romberg integration is a method which uses the following motivation.
@@ -100,6 +101,7 @@ This is effectively gives us an estimate of our trapezoidal integrations and an 
 \begin{align}
     I \approx I(h/N) + a_0 (h/N)^{n} = I(h/N) + \frac{1}{N^{n} - 1} \Big[ I(h/N) - I(h) \Big]
 .\end{align}
+Results using the Trapezoidal integration are shown in \fref{prob1}.
 
 
 (c) We now discuss Gauss-Legendre quadrature.
@@ -149,6 +151,23 @@ The corresponding weights are given by
 These weights and roots are tabulated within the \textit{numpy} library, and as such, we can pulled up to an arbitrarily large $N$.
 Before concluding, it should be noted that the sucess of this method depends on the behavior of our integrand.
 That is, our function and its derivatives should be reasonably smooth in order to be well approximated by a sufficiently low-order polynomial over the integration range of interest.
+Results using the fixed-order Gaussian quadrature discussed here is shown in \fref{prob1}.
+
+(d) The \textit{scipy.integrate} module provides a generic adaptive integration routine \textit{quad}.
+We use this to benchmark our other quadrature implementations.
+Results using this function are shown in \fref{prob1}.
+
+
+The code below implements all the essential quadrature algorithms.
+\inputpython{main.py}
+
+
+\begin{figure}[h!tb]
+    \centering
+    \includegraphics[width=\textwidth]{prob1.pdf}
+    \caption{Results for the various quadrature routines discussed in this problem. The top row of panels displays the trapezoidal and Romberg integrations as functions of the number of intervals against the fixed-order Gaussian quadrature, \textit{quad}, and exact results, and the bottom row of panels displays the ratio of each implemented method relative to the exact result.}
+    \label{fig:prob1}
+\end{figure}
 
 
 }
@@ -174,7 +193,56 @@ Explain why.
 
 }
 
-\sol{}
+\sol{
+
+The results are shown in \tref{prob2}.
+Most of the non-adaptive codes implemented in problem 1 fail to produce an accurate result across each integral here.
+
+(a) The integrand has a singularity at $x = 1/\sqrt{0.998} \approx 1.001$ and is therefore very steep in this region.
+Thus, we would need a large number of sub-intervals to accurately capture the behavior in this region.
+Additionally, this function requires many terms in the Taylor expansion to accurately capture the behavior as $x \rightarrow 1$, meaning that while the Gaussian quadrature performs better than the Trapezoidal integration on the same number of function evaluations, we should crank up $n$ in order to more accurately calculate the area under the curve.
+
+(b) The integrand here oscillates very rapidly over the region of interest, making the quadrature routines fairly unstable for small numbers of function evaluations.
+While not done here, it would not be difficult to split the integration region between the integrand's zeros, apply the quadrature routines on these sub-intervals, and sum each contribution.
+This is the typical advice for periodic functions.
+It can be seen especially that the performance of the Gaussian quadrature implementation becomes much more accurate with a relatively small $n$ on each sub-interval.
+
+(c) Observe that
+\begin{align}
+    \frac{x}{e^{x} - 1} \rightarrow 1 - \frac{x}{2} + \ldots
+\end{align}
+as $x \rightarrow 0$, so in this case, instead of a singularity at $x = 0$ we have some indeterminacy.
+Of course, though, naively applying trapezoidal and Romberg integration on the provided integration domain provides non-finite results since we evaluate at exactly $x = 0$ and returns $0/0$ even though our function is finite throughout the integration domain.
+In practice, we could amend these issues by providing an alternate definition of our function such that at $x = 0$, we return $1$, filling in the point discontinuity that is formally there.
+
+With Gaussian integration, we avoid this subtle business since there is no function evaluation at the end points and obtain reasonably accurate results with a small number of function evaluations.
+
+
+(d) The discussion here is similar to that of parts (b) and (c).
+Observe that our function is formally undefined at $x = 0$, but this discontinuity is simply a hole that could be filled by redefining our function to take the limiting value at $x \rightarrow 0$.
+Additionally, we can observe that our function oscillates rapidly in this limit, and even if this oscillation is not periodic, we can analytically determine the location of the integrand's roots, which would allow us to simply split our integration domain (although this is not done here).
+It turns out that fixed-order Gaussian integration and adaptive integration do a reasonably good job of providing an accurate value for this integral.
+
+\begin{table}[h!tb]
+    \centering
+    \begin{tabular}{|c||c|c|c|c|}
+        \hline
+        Part & Trapezoid ($N = 100$) & Romberg ($N = 100$, R=2) & Gauss ($n = 10$) & \textit{scipy} \\
+        \hline
+        a & 5.362 & 4.633 & 3.175 & 3.804 \\
+        b & 0.272 & 0.319 & 3.303 & 0.112 \\
+        c & nan & nan & 0.778 & 0.778 \\
+        d & nan & nan & 0.387 & 0.379 \\
+        \hline
+    \end{tabular}
+    \caption{Results of quadrature routines applied to the integrals specified.}
+    \label{tab:prob2}
+\end{table}
+
+
+\inputpython{prob2.py}
+
+}
 
 
 \prob{3}{
@@ -202,6 +270,26 @@ While there are nicer methods to handle improper integrals such as these, we can
 .\end{align}
 Notice that if $a = \infty$, then $\arctan{a} = \pi/2$, or if $b = -\infty$, then $\arctan{b} = -\pi/2$.
 With this, we can employ the integration techniques from Problem 1 with some caveats.
+Results are shown in \tref{prob3}.
+While our fixed-order integration provides reasonably accurate results for the integrals of parts (a) and (c), it fails to do so for part (b)'s integral, primarly because of the oscillation.
+For these kinds of integrals, it may be best to simply observe that this function dies off as $1/x$ as $x \rightarrow \infty$ and integrate over successive intervals (defined by the roots of the integrand) until some specified tolerance is achieved since over each such interval, our function is well-behaved.
+
+\begin{table}[h!tb]
+    \centering
+    \begin{tabular}{|c||c|c|}
+        \hline
+        Part & Fixed Gauss & \textit{scipy} \\
+        \hline
+        a & 0.672 ($n = 10$) & 0.672 \\
+        b & -2.11 ($n = 10$) & 1.255 \\
+        c & 0.122 ($n = 1000$) & 0.123 \\
+        \hline
+    \end{tabular}
+    \caption{Results of a modified fixed-order Gaussian quadrature routine and adaptive quadrature applied to the integrals specified above.}
+    \label{}
+\end{table}
+
+\inputpython{prob3.py}
 
 }
 
@@ -222,7 +310,38 @@ Evaluate numerically following principal value integrals using one of techniques
 
 }
 
-\sol{}
+\sol{
+
+(a) We can employ Gaussian quadrature directly on the integral here since our troubles are only at the endpoint $x = 0$ but the routines never evaluate there.
+It is observed that our routines are quite accurate here.
+
+(b) Unlike in part (a), since our integral has difficulties around $x = 0$, we split explicitly the integration domain into two sub-intervals $[-1,0] \cup [0,1]$.
+Doing so analytically, it is simple to see that the pathological piece $1/x$ cancels in the principal value prescription since it is odd about $x = 0$, and because of this, our integration routines are quite accurate.
+
+(c) This integral can be performed analytically by utilizing partial fraction expansion.
+It is a simple matter then to see that the singular piece cancels in the principal value prescription, leaving us with a finite Lorentzian.
+It is interesting to note that fixed-order Gaussian integration performs quite well for part (c) but the \textit{quad} function requires large but not infinite (\textit{np.inf}) bounds to be inserted.
+In the code shown below, we replace the bounds with $\pm 100$.
+
+
+The results are as follows
+\begin{table}[h!tb]
+    \centering
+    \begin{tabular}{|c||c|c|c|}
+        \hline
+        Part & Fixed Gauss & \textit{scipy} & exact \\
+        \hline
+        a & 1.499 ($n = 100$) & 1.5 & 1.5 \\
+        b & 2.0 ($n = 10$) & 2.0 & 2 \\
+        c & $-1.021$ ($n = 100$) & $-1.571$ & $-\pi/2$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\inputpython{prob4.py}
+
+}
 
 
 \prob{5}{
@@ -235,6 +354,7 @@ Evaluate numerically following double integrals.
 \item $\displaystyle \int_{0}^{1} \dd{x} \int_{0}^{1-x} \dd{y} \frac{1}{\sqrt{x + y} (1 + x + y)^2}$
     
 \end{parts}
+
 
 }
 
@@ -254,7 +374,66 @@ While Gaussian quadrature performs nicer than Monte Carlo integration in one dim
 If one uses Gaussian quadrature with $n$ points for each integration dimension, then in total we will require $n^D$ points for an integral over $D$ variables, which is exponentially poor.
 However, as we have learned previously, if we sample the integrand, we may hope to reduce the number of points needed to evaluate the integral.
 
+(a) Using the iterated integral presription above and the fixed-order Gaussian quadrature from problem (1), we obtain
+\begin{align}
+    I \approx 1.753
+,\end{align}
+which is quite accurate since our function is well-behaved over the integration domain.
+
+(b) Using the iterated integral prescription above and the adaptive quadrature function from \textit{scipy}, we obtain
+\begin{align}
+    I \approx 0.285
+.\end{align}
+Note that we required adaptive quadrature since there is a singularity at the origin.
+
+
+\inputpython{prob5.py}
+
 }
+
+
+\prob{6}{
+
+Write a program that employs either adaptive or automatic numerical integration.
+Appy your code to integrals in part 2.
+
+}
+
+\sol{
+
+We implement a simple adaptive routine via recursion.
+That is, we first compute the integral
+\begin{align}
+    I_1 = \int_{a}^{b} f(x) \dd{x}
+\end{align}
+and the two integrals
+\begin{align}
+    I_2 = \int_{a}^{(a+b)/2} f(x) \dd{x} + \int_{(a+b)/2}^{b} f(x) \dd{x}
+.\end{align}
+If the relative and absolute difference between these two integrals are within prescribed tolerances we return $I_2$.
+Otherwise, we further split the integration domains of each integration and repeat the conditional checks until they are satisfied or the maximum recursion depth is achieved.
+The results of implementing this method with fixed Gaussian quadrature as our base function are shown in the following table.
+It can be see that they match reasonably with our results from problem 2 obtained with the \textit{scipy} adaptive routine.
+\begin{table}[h!tb]
+    \centering
+    \begin{tabular}{|c||c|}
+        \hline
+        Part & Adaptive Gauss ($n = 100$) \\
+        \hline
+        a & 3.804 \\
+        b & 0.118 \\
+        c & 0.778 \\
+        d & 0.379 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\inputpython{prob6.py}
+
+}
+
+
 
     
 \end{document}
