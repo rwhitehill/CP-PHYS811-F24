@@ -1,0 +1,62 @@
+\include{../preamble.tex}
+\def\HWnum{4}
+\def\duedate{October 16, 2024}
+
+
+
+\begin{document}
+
+
+\prob{1}{
+
+Write three functions that numerically solves a first order ODE by using:
+\begin{parts}
+   
+    \item Explicit Euler method: This is a very simple but educational exercise to get feeling about the method.
+
+    \item Modified Euler method: The method is a bridge to methods used in particle simulations.
+
+    \item The 5$^{\rm th}$ order Runge-Kutta-Fehlberg (RKF45).
+        This is a very practical exercise leading to use a quite powerful method with an error estimate.
+
+\end{parts}
+
+}
+
+\sol{}
+
+
+\prob{2}{
+
+Solve numerically following ODEs (employing all three methods), and study the effect of step size by calculating the relative error either by comparing with analytic solution or with RKF45 (if analytic solution is not attainable).
+
+\begin{parts}
+
+\item $x' = x + e^{-t}$ with $x(0) = 0$ in the interval $t \in [0,1]$.
+
+\item $x' = x + 2 \cos{t}$ with $x(0) = 1$ in the interval $t \in [0,1]$.
+
+\item $x' = t x^2$ with $x(0) = 1$ in the interval $t \in [0,1]$.
+
+\item $x' = 1.5 \sin{2x} - x \cos{t}$ with $x(0) = 1$ in the interval $t \in [0,10]$.
+    
+\end{parts}
+
+}
+
+\sol{
+
+(a) $x(t) = \sinh{t}$
+
+(b) $x(t) = 2 e^{t} + \sin{t} - \cos{t}$
+
+(c) $x(t) = \frac{2}{2 - t^2}$
+
+}
+
+
+\prob{}{}
+
+
+    
+\end{document}
