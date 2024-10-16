@@ -25,7 +25,7 @@ Write three functions that numerically solves a first order ODE by using:
 
 \sol{
 
-(a) The explicit Euler method is perhaps the most simple method for numerically solving differential equation, typically introduced in a first-year calculus course.
+(a) The explicit Euler method is perhaps the most simple method for numerically solving a differential equation, typically introduced in a first-year calculus course.
 A generic first-order ordinary differential equation takes the form
 \begin{align}
     \dv{x}{t} = f(t,x(t))
@@ -64,12 +64,14 @@ Indeed, by averaging the slopes in the above way, we increase by one power of $h
 In the RKF45 scheme, we use the 5$^{\rm th}$ order Runge-Kutta scheme for our recursive sequence.
 Generically, an $N^{\rm th}$ Runge-Kutta method is given by
 \begin{align}
+\begin{aligned} 
     k_1 &= h f(t_{n},x_{n}) \\
     k_2 &= h f(t_{n} + b_{1} h, x_{n} + A_{11} k_1) \\
     &\vdots \\
     k_{N+1} &= h f(t_{n} + b_{N} h, x_{n} + A_{Ni} k_{i}) \\
     x_{n+1} &= x_{n} + h c_{i}^{(N)} k_{i}
-,\end{align}
+,\end{aligned}
+\end{align}
 where the coefficients $b_{i}$, $c_{i}^{(N)}$, and $A_{ij}$ are method-specific.
 Note that for brevity we utilize Einstein summation convention where repeated indices are summed implicitly.
 Although we do not have the exact solution with which to compute an error, we can define an error as the difference between the $N^{\rm th}$ and $(N - 1)^{\rm th}$ RK method:
@@ -87,19 +89,9 @@ Alternatively, if $e_{n+1} \leq \epsilon$, then we accept the step and redefine 
     h = \min\{ 0.9 h (\epsilon/|e_{n+1}|)^{1/(N+1)},2h \}
 .\end{align}
 
-Typically, the coefficients are specified by a Butcher tableau
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{c|c}
-        $b$ & $A$ \\
-        \hline
-         & $c^{(N)}$ \\
-         & $c^{(N-1)}$
-    \end{tabular}
-\end{table}
-
+Typically, the coefficients are specified by a Butcher tableau.
 For the RKF45 method, the Butcher tableau is as follows:
-\begin{table}[h!]
+\begin{table}[H]
     \centering
     \begin{tabular}{c|cccccc}
         1/4 & 1/4 &  &  &  &  & \\
@@ -115,6 +107,8 @@ For the RKF45 method, the Butcher tableau is as follows:
 
 
 }
+
+\inputpython{main.py}
 
 
 \prob{2}{
@@ -139,22 +133,24 @@ Solve numerically following ODEs (employing all three methods), and study the ef
 
 We can obtain analytic solutions for parts (a) -- (c), which are as follows:
 \begin{align} 
-    &(a):~x(t) = \sinh{t} \\
-    &(b):~x(t) = 2 e^{t} + \sin{t} - \cos{t} \\
-    &(c):~x(t) = \frac{2}{2 - t^2}
+    &(a)~\mbox{--}~x(t) = \sinh{t} \\
+    &(b)~\mbox{--}~x(t) = 2 e^{t} + \sin{t} - \cos{t} \\
+    &(c)~\mbox{--}~x(t) = \frac{2}{2 - t^2}
 .\end{align}
 Numeric results are displayed in \fref{prob2}.
 Across the board, we can see that the RKF45 and modified Euler methods perform quite well at a step size of $h = 0.1$, being within 1\% of the analytic values, while the Euler method tends to start diverging from the exact or RKF45 solution closer to $t = 1$, being as much as roughly 15\% from the analytic result in part (c).
 
 
-}
-
-\begin{figure}[h!tb]
+\begin{figure}[H]
     \centering
     \centerline{\includegraphics[width=0.9\paperwidth]{prob2.pdf}}
     \caption{In the top row of panels, a comparison of the exact (when an analytic solution is possible to obtain), Euler, modified Euler, and RKF45 (without adaptive step sizes) solutions to the respective differential equation given in problem 2 is shown, and in the lower panel, we plot the ratio of the results of the numerical scheme to the value provided by the exact solution (or RKF45 result when  an analytic solution is notavailable).}
     \label{fig:prob2}
 \end{figure}
+
+\inputpython{prob2.py}
+
+}
 
 
 \prob{3}{
@@ -167,18 +163,21 @@ Report your observations when you start either with a very small step or very la
 
 \sol{
 
-From \fref{prob3}, we can see the performance of our RKF45 with static and adaptive step sizes for three different initial step sizes: $10^{-2},10^{-1},1$.
+From \fref{prob3}, we can see the performance of our RKF45 with static and adaptive step sizes for three different initial step sizes: $10^{-2},10^{-1},~{\rm and}~1$.
 It is clear that the solutions cannot be properly reconstructed with one static step, but it is not too bad when we take 10 steps and certainly a more resolved construction when we take 100 static steps.
 When one permits the step-size to change with a tolerance of $\epsilon = 10^{-4}$, we can see that a step size of about $1/6$ is approximately optimal across the time interval to construct the solution, and therefore there is only a slight adjustment of the step sizes when $h_0 = 0.1$.
 When $h_0 = 1$, the first step is not accepted until a much smaller step of roughly $h = 0.3$ is attained and decrease subsequently.
-On the other hand, while the steps are accepted initiall for $h_0 = 0.01$, the code makes the subsequent steps larger because such small steps are not necessary to accurately produce the result.
+On the other hand, while the steps are accepted initially for $h_0 = 0.01$, the code makes the subsequent steps larger because such small steps are not necessary to accurately produce the result.
 
-\begin{figure}[h!tb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{prob3.pdf}
     \caption{Comparison of solutions using the RKF45 method with and without adaptive step sizes for an array of initial step sizes $h_0$.}
     \label{fig:prob3}
 \end{figure}
+
+
+\inputpython{prob3.py}
 
 }
 
@@ -240,12 +239,14 @@ With the RKF45 method with $\epsilon = 10^{-4}$, we obtain $T(10) \approx 47.504
 Howver, with $\epsilon = 10^{-6}$, we have $T(10) \approx 47.542^{\circ}{\rm C}$.
 Although our result is quite accurate in both cases, a lesson to be wary of is that the error can propagate to a noticeable and perhaps significant level over a few steps, so one must always balance computational efficiency and accuracy.
 
-\begin{figure}[h!tb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{prob4a.pdf}
     \caption{Results using RKF45 method to solve Newton's law of cooling equation with the prescribed initial conditions and physical constants.}
     \label{fig:prob4a}
 \end{figure}
+
+\inputpython{prob4a.py}
 
 
 (b) The analytic solution to this differential equation is
@@ -259,12 +260,14 @@ Solving this equation for $T$ where
 \end{align}
 for the input physical parameters and initial condition.
 
-\begin{figure}[h!tb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{prob4b.pdf}
     \caption{Results using the RKF45 method to solve Newton's 2$^{\rm nd}$ law for a vertically launched projectile under a linear drag force with initial velocity $v_0 = 20~{\rm m/s}$.}
     \label{fig:prob4b}
 \end{figure}
+
+\inputpython{prob4b.py}
 
 
 (c) In this case, the analytic solution (for purely upward motion -- the sign is flipped on the drag force when the projectile moves down) is
@@ -278,13 +281,14 @@ Solving for the time $T$ where the velocity $v(T) = 0$ we find
 \end{align}
 with the physical parameters and initial speed as given.
 
-
-\begin{figure}[h!tb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{prob4c.pdf}
     \caption{Results using the RKF45 method to solve Newton's 2$^{\rm nd}$ law for a vertically launched projectile under a quadratic drag force with initial velocity $v_0 = 20~{\rm m/s}$.}
     \label{fig:prob4c}
 \end{figure}
+
+\inputpython{prob4c.py}
 
 }
 
