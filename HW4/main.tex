@@ -192,7 +192,7 @@ On the other hand, while the steps are accepted initially for $h_0 = 0.01$, the 
         \dv{T}{t} = -k(T - T_{M})
     ,\end{align}
     where $k > 0$ is a proportionality constant, $T$ is the temperature of the body at any time $t$, and $T_{M}$ is the constant temperature of the medium.
-    Let's say you have a cup of coffee at $90 ^{\circ}{\rm C}$ initially ($T_0 = 90$) and its placed in a room where the temperature is $20 ^{\rm circ}{\rm C}$ initially ($T_{M} = 20$).
+    Let's say you have a cup of coffee at $90 ^{\circ}{\rm C}$ initially ($T_0 = 90$) and its placed in a room where the temperature is $20 ^{\circ}{\rm C}$ initially ($T_{M} = 20$).
     The constant $k$ is given as 0.05 (per minute).
     We want to find the temperature of the coffee after 10 minutes.
     Think, how can you test your code?
@@ -229,14 +229,14 @@ On the other hand, while the steps are accepted initially for $h_0 = 0.01$, the 
 
 (a) The exact solution to the differential equation is
 \begin{align}
-    T(t) = T_0 + T_{M} ( 1 - e^{-k t} )
+    T(t) = T_{M} + (T_0 - T_{M}) e^{-k t}
 ,\end{align}
 so 
 \begin{align}
-    T(10~{\rm min}) \approx 47.543 ^{\circ}{\rm C}
+    T(10~{\rm min}) \approx 62.457^{\circ}{\rm C}
 .\end{align}
-With the RKF45 method with $\epsilon = 10^{-4}$, we obtain $T(10) \approx 47.504^{\circ}{\rm C}$.
-Howver, with $\epsilon = 10^{-6}$, we have $T(10) \approx 47.542^{\circ}{\rm C}$.
+With the RKF45 method with $\epsilon = 10^{-4}$, we obtain $T(10) \approx 62.496^{\circ}{\rm C}$.
+Howver, with $\epsilon = 10^{-6}$, we have $T(10) \approx 62.458^{\circ}{\rm C}$.
 Although our result is quite accurate in both cases, a lesson to be wary of is that the error can propagate to a noticeable and perhaps significant level over a few steps, so one must always balance computational efficiency and accuracy.
 
 \begin{figure}[H]

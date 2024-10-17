@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1729121938 "main.tex" "main.pdf" "main" 1729121939 0
+["pdflatex"] 1729171820 "main.tex" "main.pdf" "main" 1729171821 0
   "../preamble.tex" 1726618893 3959 4fc7cea7c1cb67fb3c221c5b988057a7 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -238,15 +238,15 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1704662455 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1704662400 7883456 bd55f74b77522fba308a27e85e587806 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "main.aux" 1729121939 4336 ac4ff6d419fbfcdcdc2acbdbfa081f1c "pdflatex"
-  "main.out" 1729121938 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.aux" 1729171821 4336 ac4ff6d419fbfcdcdc2acbdbfa081f1c "pdflatex"
+  "main.out" 1729171820 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   "main.py" 1729120654 2030 68771857369ea2aa22c8e267519460f9 ""
-  "main.tex" 1729121937 13231 15943c4700540daf0d8fc7905f2802ac ""
-  "prob2.pdf" 1729121238 113337 97bb271a6d0d12bdbd2a431608523d9c ""
+  "main.tex" 1729171819 13229 6990fd973062e06a9cc4d57f2c015f8c ""
+  "prob2.pdf" 1729171712 113337 ad99f6c33e452a9c70c02193da51569d ""
   "prob2.py" 1729120971 2754 e470f2b852327592aa44fd00a6a842a9 ""
-  "prob3.pdf" 1729121239 102669 528352c3b901c5678e43db15e535c88d ""
+  "prob3.pdf" 1729171712 102669 a677dfa1e179fa45004ddb6c2926f8ee ""
   "prob3.py" 1729120968 1462 a36049311c62b6076358f46fa581d7ea ""
-  "prob4a.pdf" 1729121242 131448 f891b264a951be0b0315e027ed166f4e ""
+  "prob4a.pdf" 1729171727 131469 369472c917619f202a9154ce1bdcb479 ""
   "prob4a.py" 1729120958 1408 a8ab0f1cf0ce0152bc505c193680159c ""
   "prob4b.pdf" 1729121247 69196 3d46022d190247d0480ca57f8ff4e889 ""
   "prob4b.py" 1729121292 1372 b2a2c322e7aed214298a4dc7eb62f431 ""
