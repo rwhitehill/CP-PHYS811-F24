@@ -7,7 +7,40 @@
 
 \section{Introduction}
 
+During the last century, scattering has been one of the most fruitful mechanisms by which we have discovered learned about the structure of atomic systems and subatomic particles.
+One of the first major steps in our understanding of atoms arose from the Rutherford scattering of $\alpha$-particles from a gold foil.
+Prior to the experiment, we pictured atoms through the lens of the plum-pudding model, where we envisioned the positive charge, as the pudding, smeared in some volume of space with the electrons, as the plums, placed throughout the volume.
+Because the positive charge is not localized, the potential set up by this charge distribution produces scattering in the forward direction with some deflection, and this forward scattering was predominantly observed.
+However, Rutherford also observed some events with strong backward scattering, which is not predicted by the plum-pudding model.
+In order to explain the Rutherford scattering data, the modern picture of an atom, with a point-like, positively charged nucleus and orbiting negative charge, was developed along with the disovery of the proton, which is the nucleus of a hydrogen atom.
+In the subsequent sections, we discuss a numerical simulation of Rutherford scattering.
 
-\section{}
+\section{Theoretical framework}
+
+For this work, we treat the problem of Rutherford scattering in a classical setting\footnote{Of course, the results are quite robust and are the same at Born level in a quantum treatment.}.
+Our physical setup is as in \fref{scattering-setup}.
+We orient our $x$-axis parallel to the incoming particle's initial velocity.
+Additionally, the incoming particle is placed a distance $b$, called the impact parameter, along the $y$-axis, where the origin of our coordinate system is the initial position of the target particle.
+
+We first treat the target particle as stationary.
+In general, the differential cross section
+\begin{align}
+    \dv{\sigma}{\Omega} = \frac{b}{\sin{\theta}} \Big| \dv{b}{\theta} \Big|
+,\end{align}
+where $\theta$ is the incident particle's outgoing angle.
+In this picture, for a potential of the form $V(r) = \alpha / r$, the angle
+\begin{align}
+    \theta = 2 \arctan(\frac{\alpha}{m_1 b v_0^2})
+,\end{align}
+and therefore
+\begin{align}
+    \dv{\sigma}{\Omega} = \Bigg( \frac{\alpha}{2 m_1 v_0^2 \sin^2(\theta/2)} \Bigg)^2
+.\end{align}
+
+We also analyze the case where our target particle can move.
+The results above translate quite easily to this case with the understanding that $\theta$ becomes 
+
+
+
     
 \end{document}
