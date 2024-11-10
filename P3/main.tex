@@ -42,7 +42,7 @@ Doing so, our equation becomes
 where we have defined $v(x) = 2 m a^2 V(x) / \hbar^2$ and $\varepsilon = 2 m a^2 E / \hbar^2$ as well as $\tilde{\psi}(x) = \sqrt{a} \psi(x)$.
 The latter choice has been made since the norm-squared of the wave-function is a probability density, which must obey
 \begin{align}
-    \int \dd{x} |\psi(x)|^2 = \int \dd{u} |\tilde{\psi}(u)|^2 1
+    \int \dd{x} |\psi(x)|^2 = \int \dd{u} |\tilde{\psi}(u)|^2 = 1
 ,\end{align}
 and hence, $\tilde{\psi}$ is dimensionless.
 This is all the massaging we will perform before introducing our numerical methods.
@@ -51,7 +51,7 @@ There are several treatments one can use to broach solving Eq. (\ref{eq:dimless-
 Here, we will transform the continuous differential equation into a matrix equation.
 We first choose an interval $[a,b]$ on which to solve the equation and impose Dirichlet boundary conditions with $\psi(a) = \psi(b) = 0$.
 Next, we set up a lattice of $N + 2$ points $x_{n} = x_0 + n h$, where $h = (b - a)/(N+1)$ such that $x_0 = a$ and $x_{N=1} = b$.
-Because we no longer have a continuous domain $x$, we instead approximate the derivative using the central difference formula from the finite difference method:
+Because we no longer have a continuous domain, we instead approximate the derivative using the central difference formula from the finite difference method:
 \begin{align}
     \tilde{\psi}''(x_{n}) = \frac{\tilde{\psi}(x_{n-1}) - 2 \tilde{\psi}(x_{n}) + \tilde{\psi}(x_{n+1})}{h^2}
 .\end{align}
@@ -69,7 +69,7 @@ If we form the wave-function vector $\tilde{\psi} = \begin{pmatrix} \tilde{\psi}
 \begin{align}
     H_{nm} = -\frac{1}{h^2} \delta_{n,m-1} + \Big[ \frac{2}{h^2} + V(x_{n}) \Big] \delta_{nm} - \frac{1}{h^2} \delta_{n,m+1}
 .\end{align}
-Once this matrix is set up, we use the eigensolver \textit{scipy.linalg.eigh\_tridiagonal}, making use of the fact that our matrix is tridiagonal and saving only the solutions corresponding to bound states of our potential.
+Once this matrix is set up, we use the eigensolver \textit{scipy.linalg.eigh\_tridiagonal} to find the spectrum of our system, making use of the fact that our matrix is tridiagonal and saving only the solutions corresponding to bound states of our potential.
 
 
 \section{Results}
@@ -87,10 +87,10 @@ For our first potential, we analyze the finite square well with
 \end{align}
 This is a useful potential for stress-testing our code given that we can solve for the functional form of the wave-function exactly
 \begin{align}
-    \psi(x) = \begin{cases}
-        A e^{\kappa x} & x < -a \\
-        B \cos{k x} + C \sin{kx} & |x| < a \\
-        D e^{-\kappa x} & x > 
+    \tilde{\psi}(x) = \begin{cases}
+        A e^{\kappa u} & u < -1 \\
+        B \cos{k u} + C \sin{k u} & |u| < 1 \\
+        D e^{-\kappa u} & u > 1
     ,\end{cases}
 \end{align}
 where $k^2 = \varepsilon$ and $\kappa^2 = \sqrt{v_0 - \varepsilon}$ with $v_0 = 2 m a^2 V_0 / \hbar^2$.
@@ -129,7 +129,7 @@ As a final test, we observe that in the limit $V_0 \rightarrow \infty$, we obtai
     \varepsilon_{n} = \frac{\pi^2}{4} n^2
 .\end{align}
 In Fig. \ref{fig:finite-well-spectrum}, we plot the ratio of the first-four energy eigenvalues to the first and divide by $n^2$ for a selection of $v_0$.
-We can see that as we increase $v_0$, the eigenvalues approach the exact ones, although across the board, we have accuracy $\lesssim 0.1\%$.
+We can see that as we increase $v_0$, the eigenvalues approach the exact ones, although across the board, we have accuracy $\lesssim 1\%$.
 
 \begin{figure}[h!tb]
     \centering
@@ -154,10 +154,10 @@ Thus, our dimensionless potential $v(u) = u^2$, and going into any quantum mecha
 \begin{align}
     \tilde{\psi}(u) = \frac{1}{\pi^{1/4} \sqrt{2^{n} n!}} H_{n}(u) e^{-u^2 / 2}
 ,\end{align}
-where $H_{n}$ is the $n^{\rm th}$ Hermite polynomial and the corresponding energies $\varepsilon = 2n + 1$.
+where $H_{n}$ is the $n^{\rm th}$ Hermite polynomial and the corresponding energies $\varepsilon_n = 2n + 1$.
 We compare our numeric solutions ($N = 1000$ and interval $[-10,10]$) with these analytic ones in Fig. \ref{fig:ho-wfs}.
 It is clear that for the parameters choosen here, we reproduce the analytic solutions quite well.
-Additionally, for all of the wave-functions shown in Fig. \ref{fig:ho-wfs}, in Fig. \ref{fig:ho-orthonormality}, we plot the integral
+Additionally, for all of the wave-functions shown in Fig. \ref{fig:ho-wfs}, in Fig. \ref{fig:ho-orthonormality}, we plot the value of the integral
 \begin{align}
     \int \dd{x} \tilde{\psi}_{n}^{*}(x) \tilde{\psi}_{m}(x) = \delta_{nm}
 ,\end{align}
@@ -232,26 +232,18 @@ In three-dimensions, for a central potential, the Schr\"{o}dinger equation reads
 One can separate the angular piece of the stationary states, the spherical harmonics $Y_{\ell m}$, and the radial part $R_{n \ell}$ as $\psi_{n \ell m} = R_{n \ell}(r) Y_{\ell m}(\theta,\phi)$.
 If one defines $u_{nl}(r) = R_{nl}(r) / r$, we obtain the radial equation
 \begin{align}
-    -\frac{\hbar^2}{2m} \dv[2]{u_{nl}}{r} + \Bigg[ \frac{\hbar^2 \ell(\ell + 1)}{2m} + V(r) \Bigg] u_{n \ell}(r) = E_{n} u_{n \ell}(r)
+    -\frac{\hbar^2}{2m} \dv[2]{u_{nl}(r)}{r} + \Bigg[ \frac{\hbar^2 \ell(\ell + 1)}{2m} + V(r) \Bigg] u_{n \ell}(r) = E_{n} u_{n \ell}(r)
 .\end{align}
 This is of the same one-dimensional form as the one we have discussed above with an effective potential
 \begin{align}
-    V_{\rm eff} = \frac{\hbar^2 \ell (\ell + 1)}{2m} + V(r)
+    V_{\rm eff} = \frac{\hbar^2 \ell (\ell + 1)}{2 m r^2} + V(r)
 \end{align}
 where the first term is the so-called centrifugal barrier.
 For the Coulomb potential
 \begin{align}
     V(r) = -\frac{Z e^2}{r}
 ,\end{align}
-and we can define our length-scale to be 
-\begin{align}
-    a = \frac{a_0}{Z}
-,\end{align}
-where 
-\begin{align}
-    a_0 = \frac{\hbar^2}{m e^2}
-.\end{align}
-is the Bohr radius.
+and we can define our length-scale to be $a = a_0 / Z$, where $a_0 = \hbar^2/(m e^2)$ is the Bohr radius.
 If one massages the equation using this definition, we arrive at
 \begin{align}
     -\dv[2]{\tilde{u}_{n\ell}}{x} + \Bigg[ \frac{\ell (\ell + 1)}{x^2} - \frac{2}{x} \Bigg] \tilde{u}_{n \ell} = \varepsilon_{n} \tilde{u}_{n \ell}
@@ -264,10 +256,11 @@ Remarkably, this equation has an analytic solution of the form
 where $n = 1,2,\ldots$ is the principal quantum number, $\ell = 0,\ldots,n-1$ is the angular quantum number, and $L_{q}^{p}(x)$ is an associated Laguerre polynomial.
 Note that the corresponding energies $\varepsilon_{n} = -1/n^2$.
 In Fig. \ref{fig:hydrogen-wfs}, we plot the first six radial wave-functions obtained numerically and analytically.
+Consistent with what we have found before, the wave-functions agree to a qualitatively reasonable degree, and the energies are reproduced well.
 
 \begin{figure}[h!tb]
     \centering
-    \includegraphics[width=0.95\linewidth]{hydrogen_wfs.pdf}
+    \includegraphics[width=\linewidth]{hydrogen_wfs.pdf}
     \caption{The tower of reduced radial wave-functions up to $n = 3$ for a hydrogen-like system. As usual, the solid red line denotes the analytic solution whilst the black dots denote the numerical solution.}
     \label{fig:hydrogen-wfs}
 \end{figure}
@@ -277,10 +270,10 @@ In Fig. \ref{fig:hydrogen-wfs}, we plot the first six radial wave-functions obta
 \section{Conclusion}
 \label{sec:conclusion}
 
-In this work we have demonstrated a finite difference method to solve the energy eigenvalue for the bound states of a one-dimensional potential $V(x)$ and the corresponding bound state energies.
+In this work we have demonstrated a finite difference method to solve the energy eigenvalue problem for the bound states of a one-dimensional potential $V(x)$ and the corresponding bound state energies.
 This method works exceptionally well for localized potentials.
 During initial stages of testing, because of the sparse nature of the Hamiltonian, one could not use a large number of lattice points without encountering overflow issues in finding the spectrum of our system.
-Of course, one could simply ask for only a limited number of eigenstates and eigenvalues, but because of the construction of the second-derivative in the finite difference method, our Hamiltonian matrix becomes diagonal on the lattice, allowing us to leverage numerical methods designed to efficiently determine the eigenvectors and eigenvalues of such matrices.
+Of course, one could simply ask for only a limited number of eigenstates and eigenvalues, but because of the construction of the second-derivative in the finite difference method, our Hamiltonian matrix becomes tridiagonal on the lattice, allowing us to leverage numerical methods designed to efficiently determine the eigenvectors and eigenvalues of such matrices.
 This enabled us to achieve a high accuracy by enlarging the interval of consideration and increasing the lattice density to a very high level.
 
 In research settings, solving problems on a lattice can be quite memory intensive.

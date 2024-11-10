@@ -1,16 +1,13 @@
 import numpy as np
-import scipy
+from scipy.linalg import eigh_tridiagonal
 
-def get_H(x0,x1,n,V):
+def solve_SE(x0,x1,n,V):
     x = np.linspace(x0,x1,n)
     h = x[1] - x[0]
     
-    T_ = -(np.diag(np.full(n-3,1),k=-1) + np.diag(np.full(n-2,-2),k=0) + np.diag(np.full(n-3,1),k=1))/2/h**2
-    V_ = np.diag(V(x[1:-1]))
-    H  = T_ + V_
+    d = -np.full(n-2,-2)/h**2 + V(x[1:-1])
+    e = -np.full(n-3,1)/h**2
     
-    return x,H
-
-
-
-
+    E,psi = eigh_tridiagonal(d,e)
+    psi   = np.vstack(([np.zeros(E.shape[0]),psi,np.zeros(E.shape[0])]))
+    return x,E,psi.T
