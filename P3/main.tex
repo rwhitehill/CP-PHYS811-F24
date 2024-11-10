@@ -8,7 +8,7 @@
 \section{Introduction}
 \label{sec:introduction}
 
-In this project, our problem of interest is in finding bound states of a quantum system.
+In this project, we will be interested in finding bound states of a quantum system.
 This requires us to solve the time-independent Schr\"{o}dinger equation or energy eigenvalue equation
 \begin{align}
     -\frac{\hbar^2}{2m} \dv[2]{\psi(x)}{x} + V(x) \psi(x) = E \psi(x)
@@ -120,7 +120,7 @@ To amend this behavior, in the lower-right panel, we increase the number of latt
 \begin{figure}[h!tb]
     \centering
     \includegraphics[width=\linewidth]{finite_well_wfs.pdf}
-    \caption{Plot of the numerical and analytic results for the first four wave-functions of the finite potential well for a selection of interval widths and lattice points.}
+    \caption{Plot of the numerical and analytic results for the first four wave-functions of the finite potential well for a selection of interval widths (top row: $[-2,2]$, bottom row: $[-10,10]$) and lattice points (left column: $N = 50$, right column: $N = 200$).}
     \label{fig:finite-well-wfs}
 \end{figure}
 
@@ -196,7 +196,7 @@ A salient feature of this system is that as we increase the number of wells, we 
 \begin{figure}[h!tb]
     \centering
     \includegraphics[width=0.5\linewidth]{comb_spectrum.pdf}
-    \caption{}
+    \caption{Bound state energies for a potential made of a series of $N$ wells with width $a$ and depth $V_0 = 50 (\hbar^2 / 2 m a^2)$ separated by a width $b = a/2$.}
     \label{fig:comb-spectrum}
 \end{figure}
 
@@ -215,7 +215,7 @@ In Fig. \ref{fig:morse-wfs}, we show the bound states for $2 m x_0^2 D_{e} / \hb
 \begin{figure}[h!tb]
     \centering
     \includegraphics[width=0.5\linewidth]{morse_wfs.pdf}
-    \caption{}
+    \caption{Plot of numerical results for the five wave-functions permitted by the Morse potential with $2 m x_0^2 D_{e} / \hbar^2 = 20$ and $a x_0 = 0.75$ imposed on the potential itself and offset by the bound state energies.}
     \label{fig:morse-wfs}
 \end{figure}
 
@@ -267,7 +267,7 @@ In Fig. \ref{fig:hydrogen-wfs}, we plot the first six radial wave-functions obta
 
 \begin{figure}[h!tb]
     \centering
-    \includegraphics[width=\linewidth]{hydrogen_wfs.pdf}
+    \includegraphics[width=0.95\linewidth]{hydrogen_wfs.pdf}
     \caption{The tower of reduced radial wave-functions up to $n = 3$ for a hydrogen-like system. As usual, the solid red line denotes the analytic solution whilst the black dots denote the numerical solution.}
     \label{fig:hydrogen-wfs}
 \end{figure}
@@ -277,6 +277,18 @@ In Fig. \ref{fig:hydrogen-wfs}, we plot the first six radial wave-functions obta
 \section{Conclusion}
 \label{sec:conclusion}
 
+In this work we have demonstrated a finite difference method to solve the energy eigenvalue for the bound states of a one-dimensional potential $V(x)$ and the corresponding bound state energies.
+This method works exceptionally well for localized potentials.
+During initial stages of testing, because of the sparse nature of the Hamiltonian, one could not use a large number of lattice points without encountering overflow issues in finding the spectrum of our system.
+Of course, one could simply ask for only a limited number of eigenstates and eigenvalues, but because of the construction of the second-derivative in the finite difference method, our Hamiltonian matrix becomes diagonal on the lattice, allowing us to leverage numerical methods designed to efficiently determine the eigenvectors and eigenvalues of such matrices.
+This enabled us to achieve a high accuracy by enlarging the interval of consideration and increasing the lattice density to a very high level.
+
+In research settings, solving problems on a lattice can be quite memory intensive.
+While this method can be extended to two or three dimensions, in order to achieve a high enough lattice density to sufficiently suppress the error terms of our finite difference methods, we must scale the number of lattice points exponentially.
+Additionally, while many one-body or two-body systems can be modeled as in the section addressing the hydrogen atom, we cannot do so with a three-body or larger system.
+To address these issues one could implement these programs on a high performance computing system.
+Alternatively, either a more accurate finite difference formula could be used, although this would induce more off-diagonal matrix elements in our Hamiltonian and require a different eigensolver, or another solution method should be implemented, perhaps based on a monte carlo methodology.
+Whatever the approach, though, it is vital that we be able to solve the Schr\"{o}dinger equation given its importance in understanding fundamental, small-scale systems in nature.
 
     
 \end{document}

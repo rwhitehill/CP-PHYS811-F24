@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.7)  9 NOV 2024 13:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.7)  9 NOV 2024 21:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -889,30 +889,30 @@ File: morse_wfs.pdf Graphic file (type pdf)
 Package pdftex.def Info: morse_wfs.pdf  used on input line 217.
 (pdftex.def)             Requested size: 234.8775pt x 183.32538pt.
  [6 <./ho_wfs.pdf> <./ho_orthonormality.pdf> <./comb_spectrum.pdf>] [7 <./morse_wfs.pdf>]
-<hydrogen_wfs.pdf, id=317, 1510.44305pt x 1076.82304pt>
+<hydrogen_wfs.pdf, id=316, 1510.44305pt x 1076.82304pt>
 File: hydrogen_wfs.pdf Graphic file (type pdf)
 <use hydrogen_wfs.pdf>
 Package pdftex.def Info: hydrogen_wfs.pdf  used on input line 270.
-(pdftex.def)             Requested size: 469.75502pt x 334.89613pt.
- [8 <./hydrogen_wfs.pdf>] 
+(pdftex.def)             Requested size: 446.26582pt x 318.13654pt.
+ [8 <./hydrogen_wfs.pdf>] [9] 
 enddocument/afterlastpage: lastpage setting LastPage.
 (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: EBEB5943DEE244B4581818A0019787DF;1277.
  ) 
 Here is how much of TeX's memory you used:
- 36322 strings out of 476025
- 775303 string characters out of 5790018
+ 36323 strings out of 476025
+ 775309 string characters out of 5790018
  1869388 words of memory out of 5000000
  56139 multiletter control sequences out of 15000+600000
  528876 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  91i,18n,101p,523b,908s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb>
-Output written on main.pdf (8 pages, 530755 bytes).
+Output written on main.pdf (9 pages, 537535 bytes).
 PDF statistics:
- 448 PDF objects out of 1000 (max. 8388607)
- 318 compressed objects within 4 object streams
- 49 named destinations out of 1000 (max. 500000)
+ 453 PDF objects out of 1000 (max. 8388607)
+ 322 compressed objects within 4 object streams
+ 50 named destinations out of 1000 (max. 500000)
  269 words of extra memory for PDF output out of 10000 (max. 10000000)
 
