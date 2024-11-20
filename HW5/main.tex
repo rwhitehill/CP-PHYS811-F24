@@ -1,0 +1,146 @@
+\include{../preamble.tex}
+\def\HWnum{5}
+\def\duedate{November 20, 2024}
+
+
+\begin{document}
+
+\prob{1}{
+
+Laplace's equation in 2D rectangular coordinates
+\begin{align}
+    \pdv[2]{f}{x} + \pdv[2]{f}{y} = 0
+.\end{align}
+The Laplace equation applies to problems in steady state heat conduction, ideal fluid flow, electrostatics, etc.
+Write a code for solving 2D Laplace's equation using finite-difference $2^{\rm nd}$-order method and solve 2D Laplace's equation on the square $[0,h] \times [0,h]$ with $h = 10$ and the boundary conditions $f(x,0) = f(x,h) = f(0,y) = 0$ and $f(h,y) = 10$.
+
+\begin{parts}
+   
+    \item Compute electric potential as a function of $x$ and $y$.
+
+    \item Create a surface plot of the calculated potential.
+
+    \item Run 10, 100, and 1000 iterations, and note when convergence occurs.
+
+    \item Investigate the effect of varying the step size $\Delta h$.
+        Draw conclusions regarding the stability and accuracy of the solution for various $\Delta h$.
+
+    \item \textit{Optional}: Investigate the effect of using Gauss-Seidel relaxation versus Jacobi iterations.
+        Which converges faster?
+
+\end{parts}
+
+}
+
+\sol{
+
+We can discretize our space and convert this continuous partial differential equation into one relating the value of $f$ at neighboring lattice points using the finite difference method.
+Letting $f(x_{i},y_{j}) = f_{i,j}$, we have
+\begin{align}
+    \frac{f_{i-1,j} - 2 f_{i,j} + f_{i+1,j}}{\Delta x^2} + \frac{f_{i,j-1} - 2 f_{i,j} + f_{i,j+1}}{\Delta y^2} = 0
+.\end{align}
+Rearranging, we have
+\begin{align}
+    f_{i,j} = \frac{1}{2} \Big( \frac{1}{\Delta x^2} + \frac{1}{\Delta y^2} \Big)^{-1} \Bigg[ \frac{f_{i-1,j} + f_{i+1,j}}{\Delta x^2} + \frac{f_{i,j-1} + f_{i,j+1}}{\Delta y^2} \Bigg]
+.\end{align}
+We can devise a method of relaxation based on this equation to construct a sequence for function values at each lattice point such that
+\begin{align}
+    f_{i,j}^{(n+1)} = \frac{1}{2} \Big( \frac{1}{\Delta x^2} + \frac{1}{\Delta y^2} \Big)^{-1} \Bigg[ \frac{f_{i-1,j}^{(n)} + f_{i+1,j}^{(n)}}{\Delta x^2} + \frac{f_{i,j-1}^{(n)} + f_{i,j+1}^{(n)}}{\Delta y^2} \Bigg]
+,\end{align}
+where we choose some initial configuration for $f^{(0)}$.
+
+(a)
+
+}
+
+
+\prob{2}{
+
+Poisson's equation in 2D rectangular coordinates has a nonhomogeneous term
+\begin{align}
+    \pdv[2]{f}{x} + \pdv[2]{f}{y} = - 4 \pi \rho(x,y)
+.\end{align}
+Now consider the following boundary conditions for the square region $[0,h] \times [0,h]$ with $h = \pi$,
+\begin{align}
+\begin{gathered} 
+    f(x,0) = \sin{x}, \quad f(x,h) = |\sin{2x}| \\
+    f(0,y) = \frac{1}{2} \sin{y}, \quad f(h,y) = 1.2 \sin{y}
+,\end{gathered}
+\end{align}
+and 
+\begin{align}
+    -4 \pi \rho(x,y) = 
+    \begin{cases}
+        360 & x = y = h/3 \\
+        0 & {\rm otherwise}
+    \end{cases}
+.\end{align}
+
+\begin{parts}
+
+\item Compute electric potential as a function of $x$ and $y$.
+
+\item Create a surface plot of the calculated potential.
+
+\item Investigate the effect of varying the step size $\Delta h$.
+    Draw conclusions regarding the stability and accuracy of the solution for various $\Delta h$.
+
+\end{parts}
+
+}
+
+
+\sol{
+
+In this problem, we can utilize the same method of relaxation as in problem 1.
+We need only add the source term such that
+\begin{align} 
+    f_{i,j}^{(n+1)} = \frac{1}{2} \Big( \frac{1}{\Delta x^2} + \frac{1}{\Delta y^2} \Big)^{-1} \Bigg[ \frac{f_{i-1,j}^{(n)} + f_{i+1,j}^{(n)}}{\Delta x^2} + \frac{f_{i,j-1}^{(n)} + f_{i,j+1}^{(n)}}{\Delta y^2} - 4 \pi \rho_{i,j} \Bigg]
+.\end{align}
+
+}
+
+
+\prob{3}{
+
+The heat equation for 1D case is
+\begin{align}
+    \pdv{T(x,t)}{t} = a \pdv[2]{T(x,t)}{x}
+.\end{align}
+You are given a metal bar of length $L = 1~{\rm m}$ and aligned along the $x$-axis.
+It is insulated along its length though not at its ends.
+Initially the entire bar is at a uniform temperature of $T_0 = 100^{\circ}{\rm C}$ and then both ends are placed in contact with ice water at $0^{\circ}{\rm C}$.
+Heat flows through the non-insulated ends only.
+
+\begin{parts}
+
+\item Write a code for solving $1D$ diffusion equation.
+
+\item Calculate how the temperature varies along the length of the bar as a function of time.
+
+\item Create a 3D plot of $T(x,t)$.
+
+\item Vary the time and space steps in your calculation so that you obtain solutions that are stable in time and vary smoothly in both space and time.
+
+\item Test what happens when the von Neumann stability condition $a \Delta t / \Delta x^2 \leq 0.5$ is not satisfied.
+
+\item \textit{Optional}: The diffusion equation above can be solved analytically as series.
+    Compare the analytic and numeric solutions.
+
+\end{parts}
+
+}
+
+\sol{
+
+Following the same logic as the previous two problems, we discretize our space and use the finite difference method to write
+\begin{align}
+    T_{i,j+1} = T_{i,j} + \frac{a \Delta t}{\Delta x^2} \Big( T_{i-1,j} - 2 T_{i,j} + T_{i+1,j} \Big)
+,\end{align}
+where $T_{i,j} \equiv T(x_{i},t_{j})$.
+With this, we already have a natural time-sequence from this equation given that $T(x,0)$ is supplied as well as the boundary conditions.
+
+}
+
+    
+\end{document}
