@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.7)  20 NOV 2024 08:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.7)  25 NOV 2024 21:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -849,25 +849,63 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 
-] [2] [3] 
+]
+<part1-comp.pdf, id=72, 1011.78pt x 361.35pt>
+File: part1-comp.pdf Graphic file (type pdf)
+<use part1-comp.pdf>
+Package pdftex.def Info: part1-comp.pdf  used on input line 98.
+(pdftex.def)             Requested size: 469.75502pt x 167.77238pt.
+<part1-iter.pdf, id=75, 1510.44305pt x 426.39299pt>
+File: part1-iter.pdf Graphic file (type pdf)
+<use part1-iter.pdf>
+Package pdftex.def Info: part1-iter.pdf  used on input line 98.
+(pdftex.def)             Requested size: 469.75502pt x 132.60986pt.
+<part1-N.pdf, id=77, 1510.44305pt x 426.39299pt>
+File: part1-N.pdf Graphic file (type pdf)
+<use part1-N.pdf>
+Package pdftex.def Info: part1-N.pdf  used on input line 98.
+(pdftex.def)             Requested size: 469.75502pt x 132.60986pt.
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+)
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 98.
+ (./prob1.py [2 <./part1-comp.pdf>] [3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <./part1-iter.pdf> <./part1-N.pdf>] [4] [5] [6]) [7]
+<part2-N.pdf, id=363, 1510.44305pt x 426.39299pt>
+File: part2-N.pdf Graphic file (type pdf)
+<use part2-N.pdf>
+Package pdftex.def Info: part2-N.pdf  used on input line 172.
+(pdftex.def)             Requested size: 469.75502pt x 132.60986pt.
+ (./prob2.py [8 <./part2-N.pdf>] [9] [10]) [11]
+<part3-sol.pdf, id=559, 1011.78pt x 361.35pt>
+File: part3-sol.pdf Graphic file (type pdf)
+<use part3-sol.pdf>
+Package pdftex.def Info: part3-sol.pdf  used on input line 245.
+(pdftex.def)             Requested size: 469.75502pt x 167.77238pt.
+ [12]
+<part3-sol_unstable.pdf, id=576, 455.6946pt x 379.33476pt>
+File: part3-sol_unstable.pdf Graphic file (type pdf)
+<use part3-sol_unstable.pdf>
+Package pdftex.def Info: part3-sol_unstable.pdf  used on input line 245.
+(pdftex.def)             Requested size: 234.8775pt x 195.51874pt.
+ (./prob3.py [13 <./part3-sol.pdf> <./part3-sol_unstable.pdf>] [14]) [15] 
 enddocument/afterlastpage: lastpage setting LastPage.
 (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 36234 strings out of 476025
- 773753 string characters out of 5790018
- 1876388 words of memory out of 5000000
- 56096 multiletter control sequences out of 15000+600000
- 519156 words of font info for 53 fonts, out of 8000000 for 9000
+ 37379 strings out of 476025
+ 787812 string characters out of 5790018
+ 2296388 words of memory out of 5000000
+ 56708 multiletter control sequences out of 15000+600000
+ 530130 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 91i,15n,101p,523b,1270s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb>
-Output written on main.pdf (3 pages, 136701 bytes).
+ 91i,15n,101p,523b,2779s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb>
+Output written on main.pdf (15 pages, 15404637 bytes).
 PDF statistics:
- 143 PDF objects out of 1000 (max. 8388607)
- 93 compressed objects within 1 object stream
- 28 named destinations out of 1000 (max. 500000)
- 157 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 938 PDF objects out of 1000 (max. 8388607)
+ 837 compressed objects within 9 object streams
+ 522 named destinations out of 1000 (max. 500000)
+ 187 words of extra memory for PDF output out of 10000 (max. 10000000)
 
