@@ -49,22 +49,45 @@ Using a forward difference formula for the time derivative, the three-point form
 where $\Psi_{n}^{(m)} = \Psi(x_n,t_{m})$, $x_{n} = x_0 + n \Delta x$, and $t_{m} = m \Delta t$.
 Thus, we have a sequence defined by $\Psi_{n}^{(m)} = U^{m} \Psi_{n}^{(0)}$, where
 \begin{align}
-    U_{kn} &= \delta_{kn} + i \Delta t \Big( \frac{\delta_{k-1,n} - 2 \delta_{kn} + \delta_{k+1,n}}{2m \Delta x^2} - V_{k} \delta_{kn} \Big) \nonumber \\
-           &= \frac{i \Delta t}{2 m \Delta x^2} \delta_{k-1,n} + \Big[ 1 - \frac{i \Delta t}{m \Delta x^2} \Big( 1 + m \Delta x^2 V_{k} \Big) \Big] \delta_{kn} + \frac{i \Delta t}{2 m \Delta x^2} \delta_{k+1,n}
-.\end{align}
-Such an equation reminds us of the unitary time evolution, which can be explored by direct matrix multiplication
+    U_{kn} = \delta_{kn} - i \Delta t H_{kn}
+,\end{align}
+where the discretized Hamiltonian
 \begin{align}
-    U_{kn}^{\dagger} U_{nk'} &= \Bigg\{ -\frac{i \Delta t}{2 m \Delta x^2} \delta_{k-1,n} + \Big[ 1 + i \Delta t \Big( \frac{1}{m \Delta x^2} + V_{k} \Big) \Big] \delta_{kn} - \frac{i \Delta t}{2 m \Delta x^2} \delta_{k+1,n} \Bigg\} \nonumber \\
-    &\times \Bigg\{ \frac{i \Delta t}{2 m \Delta x^2} \delta_{n-1,k'} + \Big[ 1 - i \Delta t \Big( \frac{1}{m \Delta x^2} + V_{n} \Big) \Big] \delta_{nk'} + \frac{i \Delta t}{2 m \Delta x^2} \delta_{n+1,k'} \Bigg\} \nonumber \\
-    &= \Big( \frac{\Delta t}{2 m \Delta x^2} \Big)^2 \delta_{k,k'+2} + \frac{i \Delta t}{2 m \Delta x^2} \Big[ 1 + i \Delta t \Big( \frac{1}{m \Delta x^2} + V_{k} \Big) \Big] \delta_{k,k'+1} + \Big( \frac{\Delta t}{2 m \Delta x^2} \Big)^2 \delta_{k,k'} \nonumber \\
-    &- \frac{i \Delta t}{2 m \Delta x^2} \Big[ 1 - i \Delta t \Big( \frac{1}{m \Delta x^2} \Big) \Big] \delta_{k,k'+1}
-    &= \delta_{k k'} + \mathcal{O}(\Delta t^2)
+    H_{kn} = -\frac{\delta_{k-1,n} - 2 \delta_{kn} + \delta_{k+1,n}}{2m \Delta x^2} + V_{k} \delta_{kn}
 .\end{align}
+Such an equation reminds us of the unitary time evolution, which can be explored by direct matrix multiplication:
+\begin{align}
+    U_{kn}^{\dagger} U_{nk'} &= ( \delta_{kn} + i \Delta t H_{kn}^{\dagger} ) ( \delta_{nk'} - i \Delta t H_{nk'} ) = \delta_{k k'} + i \Delta t ( H_{kk'}^{\dagger} - H_{kk'} ) + \Delta t^2 H_{kn}^{\dagger} H_{nk'} \nonumber \\
+    &= \delta_{kk'} + \mathcal{O}(\Delta t^2)
+.\end{align}
+Herein lies a primary difficulty of implementing this method: the eigenvalues of $U$ essentially scale the eigenvector components of our initial wavevector.
+Hence, for stability, we would like to select $\Delta t$ and $\Delta x$ such that all of these eigenvalues are less than one.
+Unfortunately, this is not possible since the eigenvalues of a unitary matrix have unit norm, prohibiting us from performing our time evolution in this manner.
 
 
-\subsection{Numerical unitary time evolution}
+\subsection{Fourier transform}
 
-In search of a 
+If we cannot perform time evolution directly, perhaps we can take inspiration from a different place.
+We know from quantum mechanics that our unitary time evolution operator $U(t,t')$ acts as $\Psi(x,t) = U(t,t') \Psi(x,t')$ and therefore satisfies the differential equation
+\begin{align}
+    i \pdv{U(t,t')}{t} = H U(t,t')
+,\end{align}
+which has solution
+\begin{align}
+    U(t,t') = e^{-i H (t - t')}
+\end{align}
+if $H$ is independent of time, which will be the case in our scattering problems.
+Let us write $H = H_0 + V$, where $H_0$ is the free-particle Hamiltonian and $V$ contains the potential terms.
+If we select our time step $\Delta t$ between time slices $t_{m}$ and $t_{m+1}$, then using the Baker-Campbell-Hausdorff formula, we can write
+\begin{align}
+    U(\Delta t) = e^{-i H \Delta t} \approx e^{-i H_0 \Delta t} e^{-i V \Delta t} \Big( 1 + \mathcal{O}(\Delta t^2) \Big)
+.\end{align}
+Since we are working in the context of wave-packets, we can act directly on the state at time $t_{m}$ as follows
+\begin{align}
+    \Psi(x,t_{m+1}) &= U(\Delta t) \Psi(x,t_{m}) = e^{-i V(x) \Delta t} \int \frac{\dd{k}}{\sqrt{2 \pi}} \widetilde{\Psi}(k,t_{m}) e^{-i H_0 \Delta t} e^{i k x} \nonumber \\
+    &= e^{-i V(x) \Delta t} \int \frac{\dd{k}}{\sqrt{2 \pi}} \widetilde{\Psi}(k,t_{m}) e^{- i k^2 \Delta t / (2m)} e^{i k x}
+.\end{align}
+Thus, for small time steps, our potential changes the phase of the wave-function locally and the free part of the Hamiltonian propagates our modes according to their velocity $k/m$.
 
 
 
