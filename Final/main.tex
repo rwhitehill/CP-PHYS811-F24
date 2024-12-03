@@ -89,7 +89,57 @@ Since we are working in the context of wave-packets, we can act directly on the 
 .\end{align}
 Thus, for small time steps, our potential changes the phase of the wave-function locally and the free part of the Hamiltonian propagates our modes according to their velocity $k/m$.
 
+Because the above equation is set up on the continuous spatial domain we could set up our wave-packets as functions numerically and implement a numerical quadrature to take the Fourier transform at each $x$, but this could become quite computationally expensive, resource and time-wise.
+Another approach utilizes the fast-fourier transform, which requires us to discretize our spatial domain.
+Doing so, however, also requires conjugate momentum domain to be discretized.
+The details for computing the Fourier transform above can be found in App. \ref{app:relating-the-continuous-and-discrete-fourier-transforms}.
 
+
+\appendix
+
+\section{Stability of the explicit and implicit finite difference methods}
+\label{app:stability-of-the-explicity-and-implicit-finite-difference-methods}
+
+In this work, the operators we deal with are typically either hermitian or unitary, both of which are special cases of the broader class of normal matrices $A$ which commute with their hermitian conjugate $A^{\dagger}$.
+There is a theorem of equivalence statements in linear algebra that defines a normal matrix and states that any normal matrix $A$ is diagonalizable via a unitary similarity transformation and that there exists a set of eigenvectors which forms an complete orthonormal basis for the $n$-dimensional vector space.
+Let us denote the spectrum of $A$ by the set $\{ a_{n} \}$ and the corresponding set of eigenvectors by $\{ x^{(n)} \}$
+Thus, any vector $\Psi$, which is analogous to our discretized wave-function, we can write
+\begin{align}
+    \Psi = \sum_{n} c_{n} x^{(n)}
+,\end{align}
+where $c_{n} = \Psi^{\dagger} x^{(n)}$.
+It follows then, that repeated action of $A$ on $\Psi$ yields
+\begin{align}
+    \Psi^{(k)} = A^{k} \Psi = \sum_{n} c_{n} a_{n}^{k} x^{(n)}
+.\end{align}
+If we now consider $A$ to be nearly unitary, as in the finite difference methods above for time-evolution, then we see our fundamental issue with implementing the finite difference methods above.
+Indeed, because of the discretization effects, our eigenvalues $a_{n}$ have approximately unit norm but not quite.
+Thus, for large times (i.e. in the limit $k \rightarrow \infty$), we have
+\begin{align}
+    A^{k} \Psi \rightarrow c_{n_{\rm max}} a_{n_{\rm max}}^{k} x^{(n_{\rm max})}
+,\end{align}
+where $n_{\rm max} = {\rm argmax}(\{ a_{n} \})$.
+Hence, if $a_{n_{\rm max}} > 1$, then our solution explodes, and if $a_{\rm max} < 1$, then our solution vanishes at large times.
+Of course then, even the slightest bit of unitarity violation in our matrix evolution is a fatal flaw for a finite difference method propagating the entire wave-function, both its real and imaginary parts, at equal times.
+
+\section{Relating the continuous and discrete Fourier transforms}
+\label{app:relating-the-continuous-and-discrete-fourier-transforms}
+
+The expressions we use for the continuous fourier and inverse fourier transforms of some function $f(x)$ are as follows:
+\begin{align}
+    f(x) &= \int \frac{\dd{k}}{\sqrt{2 \pi}} \tilde{f}(k) e^{i k x} \\
+    \tilde{f}(k) &= \int \frac{\dd{x}}{\sqrt{2 \pi}} f(x) e^{-ikx}
+.\end{align}
+On the other hand, for a collection of discrete data points $f_{n}$, their discrete Fourier and inverse Fourier transforms are as follows (consistent with the \textit{numpy} conventions):
+\begin{align}
+    f_{n} &= \frac{1}{\sqrt{N}} \sum_{m=0}^{N-1} F_{m} e^{-2 \pi i \frac{m n}{N}} \\
+    F_{m} &= \frac{1}{\sqrt{N}} \sum_{n=0}^{N-1} f_{n} e^{-2 \pi i \frac{m n}{N}}
+.\end{align}
+
+We can write the grid points in $x$-space as $x_{n} = x_0 + n \Delta x$ and those in $k$-space as $k_{m} = m \Delta k$ with $n,m \in \{ 0,1,\ldots,N-1 \}$, where
+\begin{align}
+    \Delta x \Delta k = \frac{2 \pi}{N}
+.\end{align}
 
 
     
