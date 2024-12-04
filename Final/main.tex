@@ -95,6 +95,24 @@ Doing so, however, also requires conjugate momentum domain to be discretized.
 The details for computing the Fourier transform above can be found in App. \ref{app:relating-the-continuous-and-discrete-fourier-transforms}.
 
 
+\section{Freely propagating Gaussian wave packet}
+\label{sec:freely-propagating-gaussian-wave-packet}
+
+To test that our numerical solver works, we choose an initial wave function
+\begin{align}
+    \Psi(x,0) = \frac{1}{(2 \pi \sigma^2)^{1/4}} \exp{-\frac{(x - x_{0})^2}{4 \sigma^2}} \exp{i k x}
+,\end{align}
+which is a Gaussian density at $t = 0$ with average momentum $k$.
+We can now use propagator formalism to determine the wave function at any later time $t$ as follows:
+\begin{align}
+    \Psi(x,t) &= \int \dd{x'} K(x,x';t) \Psi(x',0) \nonumber \\
+              &= \sqrt{\frac{m}{2 \pi i t}} \frac{1}{(2 \pi \sigma^2)^{1/4}} \int_{-\infty}^{\infty} \dd{x'} \exp{-\frac{m(x - x')^2}{2 i t} - \frac{(x' - x_0)^2}{4 \sigma^2} + i k x'}
+.\end{align}
+The intermediate form of the wave function is not too interesting for our purposes, but the probability density
+\begin{align}
+    |\Psi(x,t)|^2 = \frac{1}{\sqrt{2 \pi \sigma^2}} \frac{2 \sigma^2 m}{\sqrt{ 4 \sigma^4 m^2 + t^2 }} \exp{ -\frac{2 m^2 \sigma^2 [ x - (x_0 + k t / m) ]^2}{4 \sigma^{4} m^2 + t^2} }
+.\end{align}
+
 \appendix
 
 \section{Stability of the explicit and implicit finite difference methods}
@@ -132,7 +150,7 @@ The expressions we use for the continuous fourier and inverse fourier transforms
 .\end{align}
 On the other hand, for a collection of discrete data points $f_{n}$, their discrete Fourier and inverse Fourier transforms are as follows (consistent with the \textit{numpy} conventions):
 \begin{align}
-    f_{n} &= \frac{1}{\sqrt{N}} \sum_{m=0}^{N-1} F_{m} e^{-2 \pi i \frac{m n}{N}} \\
+    f_{n} &= \frac{1}{\sqrt{N}} \sum_{m=0}^{N-1} F_{m} e^{2 \pi i \frac{m n}{N}} \\
     F_{m} &= \frac{1}{\sqrt{N}} \sum_{n=0}^{N-1} f_{n} e^{-2 \pi i \frac{m n}{N}}
 .\end{align}
 
