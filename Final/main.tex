@@ -91,8 +91,12 @@ Thus, for small time steps, our potential changes the phase of the wave-function
 
 Because the above equation is set up on the continuous spatial domain we could set up our wave-packets as functions numerically and implement a numerical quadrature to take the Fourier transform at each $x$, but this could become quite computationally expensive, resource and time-wise.
 Another approach utilizes the fast-fourier transform, which requires us to discretize our spatial domain.
-Doing so, however, also requires conjugate momentum domain to be discretized.
+Doing so, however, also requires the conjugate momentum domain to be discretized.
 The details for computing the Fourier transform above can be found in App. \ref{app:relating-the-continuous-and-discrete-fourier-transforms}.
+
+One thing to note with this method is that we have not imposed boundary conditions explicitly, but it can be seen that the Fourier method implicitly imposes periodic boundary conditions such that $\psi(x + L) = \psi(x)$.
+That is, any part of the wave packet which physically exits our numerically imposed spatial region to the right appears back on the left part of our spatial domain.
+It will befall us then to deal with such a non-physical behavior by either simulating our scattering events on a grid much larger than the extent of our potential or imposing some extra non-physical layers which damp the waves in order to minimize their effect when they exit the numerical domain and reappear.
 
 
 \section{Freely propagating Gaussian wave packet}
@@ -158,6 +162,15 @@ We can write the grid points in $x$-space as $x_{n} = x_0 + n \Delta x$ and thos
 \begin{align}
     \Delta x \Delta k = \frac{2 \pi}{N}
 .\end{align}
+From this discretization, we can approximate
+\begin{align}
+    \tilde{f}(k) = \sum_{n=0}^{N-1} \frac{\Delta x}{\sqrt{2 \pi}} f(x_{n}) e^{-i k x_{n}} = \frac{\Delta x \sqrt{N}}{\sqrt{2 \pi}} e^{-i k x_0} \frac{1}{\sqrt{N}} \sum_{n=0}^{N-1} f(x_{n}) e^{-i k n \Delta x}
+.\end{align}
+Hence,
+\begin{align}
+    \tilde{f}(k_{m}) = \frac{\Delta x \sqrt{N}}{\sqrt{2 \pi}} e^{-i k_{m} x_0} F_{m}
+.\end{align}
+We can also then perform the inverse fourier transform by writing $F_{m}$ in terms of $\tilde{f}(k_{m})$.
 
 
     
