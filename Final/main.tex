@@ -64,6 +64,12 @@ Herein lies a primary difficulty of implementing this method: the eigenvalues of
 Hence, for stability, we would like to select $\Delta t$ and $\Delta x$ such that all of these eigenvalues are less than one.
 Unfortunately, this is not possible since the eigenvalues of a unitary matrix have unit norm, prohibiting us from performing our time evolution in this manner.
 
+{\color{red} 
+    Move this section to the appendix.
+
+    Make plots demonstrating instability.
+}
+
 
 \subsection{Fourier transform}
 
@@ -116,6 +122,116 @@ The intermediate form of the wave function is not too interesting for our purpos
 \begin{align}
     |\Psi(x,t)|^2 = \frac{1}{\sqrt{2 \pi \sigma^2}} \frac{2 \sigma^2 m}{\sqrt{ 4 \sigma^4 m^2 + t^2 }} \exp{ -\frac{2 m^2 \sigma^2 [ x - (x_0 + k t / m) ]^2}{4 \sigma^{4} m^2 + t^2} }
 .\end{align}
+
+{\color{red}
+    Make plots of evolution (comment on dispersion, mass effects, initial momentum setting)
+}
+
+
+\section{Wave packet treatment}
+\label{sec:wave-packet-treatment}
+
+We would like to understand the behavior of a single particle in the presence of a potential, in one-dimension for the sake of simplicity for now.
+As always, at its core, this problem requires us to solve the Schr\"{o}dinger equation
+\begin{align}
+    i \pdv{\Psi(x,t)}{t} = H \Psi(x,t)
+.\end{align}
+Of course, this is done with the time evolution operator introduced already such that $\Psi(x,t) = e^{-i H t} \Psi(x,0)$.
+Working in the context of wave packets, our potentials must be localized such that in the asymptotic regions $|x| \rightarrow \infty$ and the wave packet set up at $t = 0$ as
+\begin{align}
+    \Psi(x,0) = \int \frac{\dd{k}}{\sqrt{2 \pi}} \widetilde{\Psi}(k) e^{i k x}
+\end{align}
+is exactly the expansion of free particle eigenstates far from the potential.
+Then, the time-evolution follows as
+\begin{align}
+    \Psi(x,t) = \int \frac{\dd{k}}{\sqrt{2 \pi}} \widetilde{\Psi}(k) e^{i k x - k^2 t / 2m}
+.\end{align}
+Thus, to analyze scattering problems, we can solve the time-independent energy eigenvalue equation for a given $k$ in the continuum of scattering states, determine the relative amplitudes of the incoming and outgoing pieces, and finally use this to determine the behavior of the system for $t \rightarrow \infty$ when our particles are far from the potential and are essentially free particles.
+
+
+\subsection{Example: Scattering from a Dirac-$\delta$ source}
+
+The example of an infinite pulse centered at $x = 0$ as $V(x) = V_0 \delta(x)$ is a fairly simple example to understand the analytic treatment of scattering in one dimension.
+Because we send particles from left to right, we choose the energy eigenstate corresponding to momentum $k > 0$ as
+\begin{align}
+    \psi_{k}(x) = 
+    \begin{cases}
+        e^{i k x} + r e^{-i k x} & x < 0 \\
+        t e^{i k x} & x > 0
+    .\end{cases}
+\end{align}
+For our boundary conditions, we have
+\begin{align}
+    \psi_{k}(0^{-}) = \psi_{k}(0^{+}) &\Rightarrow 1 + r = t \\
+    \psi_{k}'(0^{+}) - \psi_{k}'(0^{-}) = 2 m V_0 \psi(0) &\Rightarrow t - [1 - r] = \frac{2 m V_0}{i k} t
+,\end{align}
+which can be solved simply to yield
+\begin{align}
+    t = \frac{1}{1 + i m V_0 / k}, \quad r = t - 1 = -\frac{i m V_0 / k}{1 + i m V_0 / k}
+.\end{align}
+We can then construct a wave-packet for all times $t$ by summing these energy eigenstates as follows:
+\begin{align}
+    \Psi(x,t) &= \int \dd{k} g(k) \psi_{k}(x) \nonumber \\
+              &= \Theta(-x) \Bigg\{ \underbrace{ \int_{0}^{\infty} \dd{k} g(k) e^{i k x - i k^2 t / (2m)} }_{\Psi_{i}(x,t)} + \underbrace{ \int_{0}^{\infty} g(k) r(k) e^{-i k x - i k^2 t / (2m)} }_{\Psi_{r}(x,t)} \Bigg\} \nonumber \\
+              &+ \Theta(x) \underbrace{ \int_{0}^{\infty} \dd{k} g(k) t(k) e^{i k x - i k^2 t / (2m)} }_{\Psi_{t}(x,t)}
+,\end{align}
+where $g(k)$ is some properly chosen real profile function.
+Most often, we are interested in wave-packets that are sharply peaked at some $k = k_0$, which permits an analysis via the method of stationary phase.
+Let us analyze the form of each term separately:
+\begin{align}
+    \Psi_{i}(x,t) = \int_{0}^{\infty} \dd{k} g(k) e^{i \varphi_{i}(x,t,k)}
+,\end{align}
+where $\varphi_{i}(x,t,k) = kx - k^2 t / 2m$.
+Since $g(k)$ is sharply peaked around some $k_0$, we expand the phase function about $k_{0}$ as
+\begin{align}
+    \varphi_{i}(x,t,k) &= \varphi_{i}(x,t,k_0) + (k - k_0) \dv{\varphi_{i}}{x}\Big|_{k=k_0} + \mathcal{O}\Big( (k - k_0)^2 \Big) \nonumber \\
+                       &= \varphi_{i}(x,t,k_0) + (k - k_0) (x - x_{i}(t)) + \mathcal{O}\Big( (k - k_0)^2 \Big)
+,\end{align}
+where $x_{i}(t) = k_0 t / m$ is representative of the position of our incoming wave packet.
+Using this, 
+\begin{align}
+    \Psi_{i}(x,t) \approx e^{i \varphi_{i}(x,t,k_{0})} \int_{0}^{\infty} \dd{k} g(k) e^{i (k - k_0) (x - x_{i}(t))}
+.\end{align}
+Notice that when $x_{i} \gg 0$, the incoming wave packet does not contribute to our wave function since $x < 0$ and hence $|x - x_{i}(t)| \gg 0$.
+If we repeat the analysis for the reflected wave packet, we find
+\begin{align}
+    \Psi_{r}(x,t) = \int_{0}^{\infty} \dd{k} g(k) |r(k)| e^{-i \chi_{r}(k)} e^{-i k x - i k^2 t / (2m)}
+,\end{align}
+so we can define our overall reflected phase function as
+\begin{align}
+    \varphi_{r}(x,t,k) = kx + \frac{k^2 t}{2m} + \chi_{r}(k)
+\end{align}
+with
+\begin{align}
+    \tan{\chi_{r}(k)} = - \frac{\Im{r(k)}}{\Re{r(k)}} = -\frac{k}{m V_0}
+.\end{align}
+Expanding around $k = k_0$, we write
+\begin{align}
+    \varphi_{r}(x,t,k) \approx \varphi_{r}(x,t,k_0) + (k - k_0) (x - x_{r}(t))
+,\end{align}
+where $x_{r}(t)$ is defined such that
+\begin{align}
+    \dv{\varphi_{r}}{k}\Big|_{k=k_0,x=x_{r}(t)} = 0 
+.\end{align}
+Carrying out the calculation, we find
+\begin{align}
+    x_{r}(t) &= - \frac{k_0 t}{m} - \chi_{r}'(k_0) = -\frac{k_0 t}{m} + \frac{1}{m V_0} \frac{1}{1 + {\rm arctan}^2(k_0 / m V_0)} \nonumber \\
+    &= -\frac{k_0}{m} \Bigg\{ t - \frac{1}{k_0 V_0} \frac{1}{1 + \arctan^2(k_0/m V_0)} \Bigg\}
+.\end{align}
+Similarly, for the transmitted wave packet, we have
+\begin{align}
+    \Psi_{t}(x,t) = \int_{0}^{\infty} g(k) |t(k)| e^{i k x - i k^2 t / (2m) - i \chi_{t}(k)}
+.\end{align}
+Thus, performing the stationary wave approximation, we find
+\begin{align}
+    x_{t}(t) = \frac{k_0 t}{m} + \chi_{t}'(k) = \frac{k_0}{m} \Bigg\{ t - \frac{m^2 V_0}{k^2} \frac{1}{1 + \arctan^2(m V_0 / k_0)} \Bigg\}
+.\end{align}
+
+
+\subsection{Square barrier}
+
+
+
 
 \appendix
 
