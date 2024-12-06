@@ -2,10 +2,13 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
 \HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
 \global\let\oldnewlabel\newlabel
 \gdef\newlabel#1#2{\newlabelxx{#1}#2}
 \gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
 \AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
 \let\newlabel\oldnewlabel
 \fi}
 \fi}
@@ -25,9 +28,9 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4}Wave packet treatment}{4}{section.4}\protected@file@percent }
 \newlabel{sec:wave-packet-treatment}{{4}{4}{Wave packet treatment}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Example: Scattering from a Dirac-$\delta $ source}{4}{subsection.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Square barrier}{6}{subsection.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A}Stability of the explicit and implicit finite difference methods}{6}{appendix.A}\protected@file@percent }
-\newlabel{app:stability-of-the-explicity-and-implicit-finite-difference-methods}{{A}{6}{Stability of the explicit and implicit finite difference methods}{appendix.A}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Square barrier}{7}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Stability of the explicit and implicit finite difference methods}{7}{appendix.A}\protected@file@percent }
+\newlabel{app:stability-of-the-explicity-and-implicit-finite-difference-methods}{{A}{7}{Stability of the explicit and implicit finite difference methods}{appendix.A}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {B}Relating the continuous and discrete Fourier transforms}{7}{appendix.B}\protected@file@percent }
 \newlabel{app:relating-the-continuous-and-discrete-fourier-transforms}{{B}{7}{Relating the continuous and discrete Fourier transforms}{appendix.B}{}}
 \newlabel{LastPage}{{}{8}{}{page.8}{}}

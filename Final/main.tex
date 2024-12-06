@@ -168,16 +168,16 @@ Solving, we find
 .\end{align}
 We can then construct a wave-packet for all times $t$ by summing these energy eigenstates as follows:
 \begin{align}
-    \Psi(x,t) &= \int \dd{k} g(k) \psi_{k}(x) \nonumber \\
-              &= \Theta(-x) \Bigg\{ \int_{0}^{\infty} \dd{k} g(k) e^{i k x - i k^2 t / (2m)} + \int_{0}^{\infty} g(k) A(k) e^{-i k x - i k^2 t / (2m)} \Bigg\} \nonumber \\
-              &+ \Theta(x) \int_{0}^{\infty} \dd{k} g(k) B(k) e^{i k x - i k^2 t / (2m)}
+    \Psi(x,t) &= \int \frac{\dd{k}}{\sqrt{2 \pi}} g(k) \psi_{k}(x) \nonumber \\
+              &= \Theta(-x) \Bigg\{ \int_{0}^{\infty} \frac{\dd{k}}{\sqrt{2 \pi}} g(k) e^{i k x - i k^2 t / (2m)} + \int_{0}^{\infty} \frac{\dd{k}}{\sqrt{2 \pi}} g(k) A(k) e^{-i k x - i k^2 t / (2m)} \Bigg\} \nonumber \\
+              &+ \Theta(x) \int_{0}^{\infty} \frac{\dd{k}}{\sqrt{2 \pi}} g(k) B(k) e^{i k x - i k^2 t / (2m)}
 ,\end{align}
 where $g(k)$ is some properly chosen real profile function.
 The analysis is made more tractable and cleaner if our wave packets have momentum modes sharply centered at some $k = k_0$.
 Making this assumption, we proceed via the method of stationary phase.
 Let us analyze the form of each term separately, beginning with the incident wave packet
 \begin{align}
-    \Psi_{I}(x,t) = \int_{0}^{\infty} \dd{k} g(k) e^{i \varphi_{I}(x,t,k)}
+    \Psi_{I}(x,t) = \int_{0}^{\infty} \frac{\dd{k}}{\sqrt{2 \pi}} g(k) e^{i \varphi_{I}(x,t,k)}
 ,\end{align}
 where $\varphi_{I}(x,t,k) = kx - k^2 t / 2m$.
 Since $g(k)$ is sharply peaked around some $k_0$, we expand the phase function about $k_{0}$ as
@@ -188,19 +188,19 @@ Since $g(k)$ is sharply peaked around some $k_0$, we expand the phase function a
 where $x_{I}(t) = k_0 t / m$ satisfies $\dv*{\varphi_{I}}{k}|_{k=k_0,x=x_{I}(t)}$ and is representative of the center of our incoming wave packet.
 Using this, 
 \begin{align}
-    \Psi_{I}(x,t) \approx e^{i \varphi_{I}(x,t,k_{0})} \int_{0}^{\infty} \dd{k} g(k) e^{i (k - k_0) (x - x_{I}(t))}
+    \Psi_{I}(x,t) \approx e^{i \varphi_{I}(x,t,k_{0})} \int_{0}^{\infty} \frac{\dd{k}}{\sqrt{2 \pi}} g(k) e^{i (k - k_0) (x - x_{I}(t))}
 .\end{align}
 Observe also that since $k$ is sharply peaked around $k = k_0 > 0$, it is inconsequential to extend the integration range to all $k$ as
 \begin{align}
-    \Psi_{I}(x,t) &\approx e^{i \varphi_{I}(x,t,k_0)} \int \dd{k} g(k) e^{i (k - k_0) x} = e^{i [ \varphi_{I}(x,t,k_0) - k_0 (x - x_{I}(t)) ]} \int \dd{k} g(k) e^{i k ( x - x_{I}(t) )} \nonumber \\
-                  &= e^{i[\varphi_{I}(x,t,k_0) - k_0 (x - x_{I}(t))]} \Psi_{I}(x - x_{I}(t),0)
+    \Psi_{I}(x,t) &\approx e^{i \varphi_{I}(x,t,k_0)} \int \frac{\dd{k}}{\sqrt{2 \pi}} g(k) e^{i (k - k_0) (x - x_{I}(t))} = e^{i [ \varphi_{I}(x,t,k_0) - k_0 (x - x_{I}(t)) ]} \int \frac{\dd{k}}{\sqrt{2 \pi}} g(k) e^{i k ( x - x_{I}(t) )} \nonumber \\
+                  &= e^{i[\varphi_{I}(x,t,k_0) - k_0 (x - x_{I}(t))]} G(x - x_{I}(t),0)
 ,\end{align}
-where we have effectively shown that $g(k)$ is related to the Fourier transform of our initial wave packet, set up at $t = 0$, and hence our wave packet moves uniformly in space with center given by $x_{I}(t)$.
+where $G(x)$ is the inverse Fourier transform of $g(k)$.
 
 Next, we analyze the form of the reflected wave packet.
 Defining
 \begin{align}
-    \Psi_{R}(x,t) = \int_{0}^{\infty} \dd{k} g(k) |A(k)| e^{-i \chi_{A}(k)} e^{-i k x - i k^2 t / (2m)}
+    \Psi_{R}(x,t) = \int_{0}^{\infty} \frac{\dd{k}}{\sqrt{2 \pi}} g(k) |A(k)| e^{-i \chi_{A}(k)} e^{-i k x - i k^2 t / (2m)}
 ,\end{align}
 so that overall reflected phase function
 \begin{align}
@@ -208,7 +208,7 @@ so that overall reflected phase function
 \end{align}
 with
 \begin{align}
-    \tan{\chi_{r}(k)} = - \frac{\Im{r(k)}}{\Re{r(k)}} = -\frac{k}{m V_0}
+    \tan{\chi_{A}(k)} = - \frac{\Im{A(k)}}{\Re{A(k)}} = -\frac{k}{m V_0}
 .\end{align}
 Performing the stationary phase expansion, we find
 \begin{align}
@@ -219,15 +219,30 @@ where
     x_{R}(t) &= - \frac{k_0 t}{m} - \chi_{r}'(k_0) = -\frac{k_0 t}{m} + \frac{1}{m V_0} \frac{1}{1 + {\rm arctan}^2(k_0 / m V_0)} \nonumber \\
     &= -\frac{k_0}{m} \Bigg\{ t - \frac{1}{k_0 V_0} \frac{1}{1 + \arctan^2(k_0/m V_0)} \Bigg\}
 .\end{align}
+With this, we have
+\begin{align}
+    \Psi_{R}(x,t) = |A(k_0)| e^{i [ \varphi_{R}(x,t,k_0) - k_0(x - x_{R}(t)) ]} G(x - x_{R}(t))
+.\end{align}
 Similarly, for the transmitted wave packet
 \begin{align}
-    \Psi_{T}(x,t) &= \int_{0}^{\infty} g(k) |B(k)| e^{i \varphi_{T}(x,t,k)} \\
+    \Psi_{T}(x,t) &= \int_{0}^{\infty} \frac{\dd{k}}{\sqrt{2 \pi}} g(k) |B(k)| e^{i \varphi_{T}(x,t,k)} \\
     \varphi_{T}(x,t,k) &= k x - k^2 t / (2m) - \chi_{B}(k)
 ,\end{align}
 so that
 \begin{align}
     x_{T}(t) = \frac{k_0 t}{m} + \chi_{B}'(k) = \frac{k_0}{m} \Bigg\{ t - \frac{m^2 V_0}{k_0^3} \frac{1}{1 + \arctan^2(m V_0 / k_0)} \Bigg\}
+\end{align}
+and
+\begin{align}
+    \Psi_{T}(x,t) = |B(k_0)| e^{i [ \varphi_{T}(x,t,k_0) - k_0 ( x - x_{T}(t) ) ]} G(x - x_{T}(t))
 .\end{align}
+
+The upshot of all this work is the following.
+When we prepare a wave packet with a very narrow momentum spectrum that is sent towards a localized momentum, then after a sufficient amount of time (determined by the particle's mass and average momentum as well as the specifics of the potential) we observe reflected and transmitted wave packets in the asymptotic region with approximately the same shape as our incident wave packet, modulated by some transmission and reflection amplitudes that obey probability conservation as
+\begin{align}
+    |A(k_0)|^2 + |B(k_0)|^2 = 1
+,\end{align}
+which can be shown by considering the normalization of the wave function in the asymptotic limits $t \rightarrow \pm \infty$.
 
 
 \subsection{Square barrier}
