@@ -72,6 +72,7 @@ Unfortunately, this is not possible since the eigenvalues of a unitary matrix ha
 
 
 \subsection{Fourier transform}
+\label{ssec:fourier-transform}
 
 If we cannot perform time evolution directly, perhaps we can take inspiration from a different place.
 We know from quantum mechanics that our unitary time evolution operator $U(t,t')$ acts as $\Psi(x,t) = U(t,t') \Psi(x,t')$ and therefore satisfies the differential equation
@@ -115,6 +116,7 @@ To test that our numerical solver works, we choose an initial wave function
 which is a Gaussian density at $t = 0$ with average momentum $k$.
 We can now use propagator formalism to determine the wave function at any later time $t$ as follows:
 \begin{align}
+\label{eq:gauss-wave-prop}
     \Psi(x,t) &= \int \dd{x'} K(x,x';t) \Psi(x',0) \nonumber \\
               &= \sqrt{\frac{m}{2 \pi i t}} \frac{1}{(2 \pi \sigma^2)^{1/4}} \int_{-\infty}^{\infty} \dd{x'} \exp{-\frac{m(x - x')^2}{2 i t} - \frac{(x' - x_0)^2}{4 \sigma^2} + i k x'}
 .\end{align}
@@ -123,9 +125,13 @@ The intermediate form of the wave function is not too interesting for our purpos
     |\Psi(x,t)|^2 = \frac{1}{\sqrt{2 \pi \sigma^2}} \frac{2 \sigma^2 m}{\sqrt{ 4 \sigma^4 m^2 + t^2 }} \exp{ -\frac{2 m^2 \sigma^2 [ x - (x_0 + k t / m) ]^2}{4 \sigma^{4} m^2 + t^2} }
 .\end{align}
 
-{\color{red}
-    Make plots of evolution (comment on dispersion, mass effects, initial momentum setting)
-}
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{gauss_wave-prop.pdf}
+    \caption{Comparison of Gaussian wave-packet propagation, where the exact formula is given in Eq. \ref{eq:gauss-wave-prop}, with the numerical Fourier transform based numerical scheme presented in Sec. \ref{ssec:fourier-transform}.}
+    \label{fig:gauss-wave-prop}
+\end{figure}
 
 
 \section{Wave packet treatment}
@@ -247,7 +253,20 @@ which can be shown by considering the normalization of the wave function in the 
 
 \subsection{Square barrier}
 
-
+For this section, we consider a potential of the form $V(x) = V_0 [ \Theta(x) - \Theta(x - a) ]$.
+We then have two cases to consider.
+First, if $E < V_0$, or equivalently $k < \sqrt{2 m V_0}$, we find
+\begin{align}
+    |A(k)| &= \frac{2 m V_0 \sinh(\kappa a)}{\sqrt{4 \kappa^2 k^2 + 4 m^2 V_0^2 \sinh^2(\kappa a)}} \\
+    |B(k)| &= \frac{2 \kappa k}{\sqrt{4 \kappa^2 k^2 + 4 m^2 V_0^2 \sinh^2(\kappa a)}}
+,\end{align}
+where $\kappa = \sqrt{2 m V_0 - k^2}$.
+Alternatively, if $E > V_0$, or equivalently $k > \sqrt{2 m V_0}$, we find
+\begin{align}
+    |A(k)| &= \frac{2 m V_0 |\sin(k' a)|}{\sqrt{4 k'^2 k^2 + 4 m^2 V_0^2 \sin^2(k' a)}} \\
+    |B(k)| &= \frac{2 \kappa k}{\sqrt{4 k'^2 k^2 + 4 m^2 V_0^2 \sin^2(k' a)}}
+,\end{align}
+where $k' = \sqrt{k^2 - 2 m V_0}$.
 
 
 \appendix
