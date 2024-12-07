@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1733514429 "main.tex" "main.pdf" "main" 1733514430 0
+["pdflatex"] 1733586329 "main.tex" "main.pdf" "main" 1733586331 0
   "../preamble.tex" 1731175650 3983 e1d6c325c5c246489d787d293ef3e623 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -247,10 +247,10 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1704662455 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1704662400 7883456 bd55f74b77522fba308a27e85e587806 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "gauss_wave-prop.pdf" 1733514428 106062 094b9484373416c45177566a1cb22108 ""
-  "main.aux" 1733514430 3600 440e491475def8c8122ec24068009ea5 "pdflatex"
-  "main.out" 1733514430 2086 1a9ca7ada22666fadc0cc27ea447e025 "pdflatex"
-  "main.tex" 1733511428 19981 446115e1c7c6e9312067c0fd476ab9fe ""
+  "gauss_wave-prop.pdf" 1733586328 106062 e319cc8daa4268e9e1cd400dd1313589 ""
+  "main.aux" 1733586330 3600 440e491475def8c8122ec24068009ea5 "pdflatex"
+  "main.out" 1733586330 2086 1a9ca7ada22666fadc0cc27ea447e025 "pdflatex"
+  "main.tex" 1733522088 19981 446115e1c7c6e9312067c0fd476ab9fe ""
   (generated)
   "main.aux"
   "main.log"
