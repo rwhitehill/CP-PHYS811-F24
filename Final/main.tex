@@ -247,25 +247,41 @@ To test that our numerical solver works, we choose an initial wave function
     \Psi(x,0) = \frac{1}{(2 \pi \sigma^2)^{1/4}} \exp{-\frac{(x - x_{0})^2}{4 \sigma^2}} \exp{i k x}
 ,\end{align}
 which is a Gaussian density at $t = 0$ with average momentum $k$.
-We can now use propagator formalism to determine the wave function at any later time $t$ as follows:
-\begin{align}
-\label{eq:gauss-wave-prop}
-    \Psi(x,t) &= \int \dd{x'} K(x,x';t) \Psi(x',0) \nonumber \\
-              &= \sqrt{\frac{m}{2 \pi i t}} \frac{1}{(2 \pi \sigma^2)^{1/4}} \int_{-\infty}^{\infty} \dd{x'} \exp{-\frac{m(x - x')^2}{2 i t} - \frac{(x' - x_0)^2}{4 \sigma^2} + i k x'}
-.\end{align}
-The intermediate form of the wave function is not too interesting for our purposes, but the probability density
+We can now use the propagator formalism to determine the wave function at any later time $t$ as $\Psi(x,t) = \int \dd{x'} K(x,x';t) \Psi(x',0)$, where for a free particle $K(x,x';t) = \sqrt{m/(2 \pi i t)} \exp{-m(x - x')^2/(2it)}$.
+While the intermediate form of the wave function is not too interesting for our purposes, the probability density
 \begin{align}
     |\Psi(x,t)|^2 = \frac{1}{\sqrt{2 \pi \sigma^2}} \frac{2 \sigma^2 m}{\sqrt{ 4 \sigma^4 m^2 + t^2 }} \exp{ -\frac{2 m^2 \sigma^2 [ x - (x_0 + k t / m) ]^2}{4 \sigma^{4} m^2 + t^2} }
 .\end{align}
+As a testing ground for our time evolution scheme, we plot the probability density at a few time slices as computed from the exact equation above and from a numerical simulation, starting from the wave packet provided at $t = 0$.
+We can see qualitatively that the numerical and exact wave packets agree quite well, and indeed probability is conserved over a large time interval as needed.
 
 
 \begin{figure}[tb]
     \centering
     \includegraphics[width=0.7\linewidth]{gauss_wave-prop.pdf}
-    \caption{Comparison of Gaussian wave-packet propagation, where the exact formula is given in Eq. \ref{eq:gauss-wave-prop}, with the numerical Fourier transform based numerical scheme presented in Sec. \ref{ssec:fourier-transform}.}
+    \caption{Comparison of a particle with mass $m = 10$, propagating as a Gaussian wave packet with $k = 5$ and $\sigma = 1$, with the numerical Fourier transform based numerical scheme presented in Sec. \ref{ssec:numerical-techniques-for-unitary-time-evolution}.}
     \label{fig:gauss-wave-prop}
 \end{figure}
 
+While our time evolution is satisfactory for a free particle, before moving on to some examples of one-dimensional scattering, we examine more quantitatively what we mean by a sharply peaked wave packet.
+In our treatment of wave packets, we assumed our wave packets were sharply, peaked in momentum space, enough such that they propagated without dispersing significantly.
+From the form of the probability density above, we can see that this is indeed the case if
+\begin{align}
+    \frac{\sigma_{t}}{\sigma} = \sqrt{1 + \frac{t^2}{4 \sigma^{4} m^2}}
+,\end{align}
+where $\sigma_{t}$ represents the spread of our wave packet at time $t$.
+Hence, if we simulate for a time $T$ before reaching asymptotic final states, then we should have $T^2 / 4 \sigma^{4} m^2 \ll 1$.
+\textit{A priori}, though, we do not know for how long we should simulate.
+Thus, if we place our incident wave packet at $x_{I}(t = 0) = x_0$ and expect roughly that the total time $T \approx 2 x_0 m / k$, then we should have $x_0^2 / \sigma^{4} k^2 \ll 1$.
+A natural length scale is the initial spread of the wave packet $\sigma$.
+Hence, if we further define $x_0 = M_2 \sigma$, we obtain
+\begin{align}
+    \sigma \gg \frac{M_2}{k}
+.\end{align}
+Thus, we can select some $M_1$ such that $\sigma = M_1 M_2 / k$ and the equation above is satisfied to some tolerance.
+As another consideration, we must place our wave packet far away from the potential at $t = 0$.
+How far is far?
+If our potential is centered at the origin and has some extent $a$, then we should select $M_2$ as defined above such that the probability of finding our particle at $t = 0$ in the region $x > -a/2$ is negligibly small.
 
 \subsection{Square barrier}
 \label{ssec:square-barrier}
@@ -281,11 +297,12 @@ where $\kappa = \sqrt{2 m V_0 - k^2}$.
 Alternatively, if $E > V_0$, or equivalently $k > \sqrt{2 m V_0}$, we find
 \begin{align}
     |A(k)| &= \frac{2 m V_0 |\sin(k' a)|}{\sqrt{4 k'^2 k^2 + 4 m^2 V_0^2 \sin^2(k' a)}} \\
-    |B(k)| &= \frac{2 \kappa k}{\sqrt{4 k'^2 k^2 + 4 m^2 V_0^2 \sin^2(k' a)}}
+    |B(k)| &= \frac{2 k' k}{\sqrt{4 k'^2 k^2 + 4 m^2 V_0^2 \sin^2(k' a)}}
 ,\end{align}
 where $k' = \sqrt{k^2 - 2 m V_0}$.
 
 
+\subsection{Dirac-$\delta$ potential}
 
 
 
