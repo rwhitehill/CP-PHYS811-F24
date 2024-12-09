@@ -167,7 +167,7 @@ Additionally, for bound states, it is natural to impose Dirichlet conditions sin
 Although, our physical wave packet must vanish far from the center, the separable solutions do not.
 Hence, it is not clear from the onset how to a more natural set of boundary conditions on our scattering state solutions.
 
-Because of the difficulties layed out above, instead of solving the time-independent Schr\"{o}dinger equation and splicing together the stationary states as in Eq. (\ref{eq:psi-expansion}), we will and solve the time-dependent Schr\"{o}dinger equation directly with the boundary condition at $t = 0$ given by an appropriate wave packet.
+Because of the difficulties layed out above, instead of solving the time-independent Schr\"{o}dinger equation and splicing together the stationary states as in Eq. (\ref{eq:psi-expansion}), we will solve the time-dependent Schr\"{o}dinger equation directly with the boundary condition at $t = 0$ given by an appropriate wave packet.
 The first attempt made to simulate the time evolution of a wave packet utilized the finite difference method, discretizing our spatial and temporal domain to yield a transfer matrix $U$ which evolved our wave function from one time slice to the next.
 However, in practice, we do not use this method for a few troublesome reasons.
 Primarily, though, the transfer matrix $U$ violates unitarity at the order of $\Delta t^2$, where $\Delta t$ is the size of the time step, and while this is not an issue over only a few time steps, the errors propagate dramatically over a sizable number of steps, which implies that probability is not properly conserved.
@@ -199,13 +199,41 @@ where $\widetilde{\Psi}(k,t_{m})$ is the Fourier transform of $\Psi(x,t_{m})$.
 We see explicitly here that for small time steps, our potential changes the phase of the wave-function locally and the free part of the Hamiltonian propagates our modes according to the velocity $k/m$.
 
 Because the above equation is set up on the continuous spatial domain we could set up our wave-packets as functions numerically and implement a numerical quadrature to take the Fourier transform at each $x$, but this could become quite computationally expensive both regarding resources and time.
-We could, however, discretize our spatial domain and use the discrete Foureir transform, computed via the fast-fourier transform method.
-The details for computing the Fourier transform above can be found in App. \ref{app:relating-the-continuous-and-discrete-fourier-transforms}.
+We could, however, discretize our spatial domain and use the discrete Fourier transform (DFT), computed via the fast-fourier transform method.
 
-One thing to note with this method is that we have not imposed boundary conditions explicitly, but it can be seen that the Fourier method implicitly imposes periodic boundary conditions such that $\psi(x + L) = \psi(x)$.
-That is, any part of the wave packet which physically exits our numerically imposed spatial region to the right appears back on the left part of our spatial domain.
-It will befall us then to deal with such a non-physical behavior by either simulating our scattering events on a grid much larger than the extent of our potential or imposing some extra non-physical layers which damp the waves in order to minimize their effect when they exit the numerical domain and reappear.
+We note that in practice, we cannot simply replace the CFT with a DFT and evaluate at the spatial grid points: we must include a few factors to correctly obtain the CFT from the DFT.
+For brevity, consider some square integrable function $f(x)$.
+The expressions we use for the continuous fourier and inverse fourier transforms of $f(x)$ are as follows:
+\begin{align}
+\begin{aligned} 
+    f(x) &= \int \frac{\dd{k}}{\sqrt{2 \pi}} \tilde{f}(k) e^{i k x} \\
+    \tilde{f}(k) &= \int \frac{\dd{x}}{\sqrt{2 \pi}} f(x) e^{-ikx}
+.\end{aligned}
+\end{align}
+On the other hand, for a collection of discrete data points $f_{n}$, their discrete Fourier and inverse Fourier transforms are as follows (consistent with the \textit{numpy} conventions using the ``ortho'' normalization):
+\begin{align}
+\begin{aligned} 
+    f_{n} &= \frac{1}{\sqrt{N}} \sum_{m=0}^{N-1} F_{m} e^{2 \pi i \frac{m n}{N}} \\
+    F_{m} &= \frac{1}{\sqrt{N}} \sum_{n=0}^{N-1} f_{n} e^{-2 \pi i \frac{m n}{N}}
+.\end{aligned}
+\end{align}
+We can write the grid points in $x$-space as $x_{n} = x_0 + n \Delta x$ and those in $k$-space as $k_{m} = m \Delta k$ with $n,m \in \{ 0,1,\ldots,N-1 \}$, where
+\begin{align}
+    \Delta x \Delta k = \frac{2 \pi}{N}
+.\end{align}
+From this discretization, we can approximate
+\begin{align}
+    \tilde{f}(k) = \sum_{n=0}^{N-1} \frac{\Delta x}{\sqrt{2 \pi}} f(x_{n}) e^{-i k x_{n}} = \frac{\Delta x \sqrt{N}}{\sqrt{2 \pi}} e^{-i k x_0} \frac{1}{\sqrt{N}} \sum_{n=0}^{N-1} f(x_{n}) e^{-i k n \Delta x}
+.\end{align}
+Hence,
+\begin{align}
+    \tilde{f}(k_{m}) = \frac{\Delta x \sqrt{N}}{\sqrt{2 \pi}} e^{-i k_{m} x_0} F_{m}
+.\end{align}
+We can also then perform the inverse fourier transform by writing $F_{m}$ in terms of $\tilde{f}(k_{m})$.
 
+One thing to note with this method is that we have not imposed boundary conditions explicitly, but it can be seen that the Fourier method implicitly imposes periodic boundary conditions.
+That is, any part of the wave packet which exits our physical numerical domain to the right appears back on the left part of our spatial domain and \textit{vice versa}.
+To deal with this, we should ensure that our numerical domain is much larger than the extent of our potential such that our wave packets reach the asymptotic region before a significant portion of the transmitted or reflected wave packets enter the incorrect region of space and contribute to the wrong probability density.
 
 
 \section{Numerical simulations}
@@ -270,7 +298,7 @@ where $k' = \sqrt{k^2 - 2 m V_0}$.
 \appendix
 
 \section{Finite differences}
-\label{ssec:finite-differences}
+\label{app:finite-differences}
 
 For our first numerical method, we solve the time-dependent Schr\"{o}dinger equation 
 \begin{align}
@@ -300,8 +328,6 @@ Hence, for stability, we would like to select $\Delta t$ and $\Delta x$ such tha
 Unfortunately, this is not possible since the eigenvalues of a unitary matrix have unit norm, prohibiting us from performing our time evolution in this manner.
 
 {\color{red} 
-    Move this section to the appendix.
-
     Make plots demonstrating instability.
 }
 
@@ -330,35 +356,6 @@ Thus, for large times (i.e. in the limit $k \rightarrow \infty$), we have
 where $n_{\rm max} = {\rm argmax}(\{ a_{n} \})$.
 Hence, if $a_{n_{\rm max}} > 1$, then our solution explodes, and if $a_{\rm max} < 1$, then our solution vanishes at large times.
 Of course then, even the slightest bit of unitarity violation in our matrix evolution is a fatal flaw for a finite difference method propagating the entire wave-function, both its real and imaginary parts, at equal times.
-
-\section{Relating the continuous and discrete Fourier transforms}
-\label{app:relating-the-continuous-and-discrete-fourier-transforms}
-
-The expressions we use for the continuous fourier and inverse fourier transforms of some function $f(x)$ are as follows:
-\begin{align}
-    f(x) &= \int \frac{\dd{k}}{\sqrt{2 \pi}} \tilde{f}(k) e^{i k x} \\
-    \tilde{f}(k) &= \int \frac{\dd{x}}{\sqrt{2 \pi}} f(x) e^{-ikx}
-.\end{align}
-On the other hand, for a collection of discrete data points $f_{n}$, their discrete Fourier and inverse Fourier transforms are as follows (consistent with the \textit{numpy} conventions):
-\begin{align}
-    f_{n} &= \frac{1}{\sqrt{N}} \sum_{m=0}^{N-1} F_{m} e^{2 \pi i \frac{m n}{N}} \\
-    F_{m} &= \frac{1}{\sqrt{N}} \sum_{n=0}^{N-1} f_{n} e^{-2 \pi i \frac{m n}{N}}
-.\end{align}
-
-We can write the grid points in $x$-space as $x_{n} = x_0 + n \Delta x$ and those in $k$-space as $k_{m} = m \Delta k$ with $n,m \in \{ 0,1,\ldots,N-1 \}$, where
-\begin{align}
-    \Delta x \Delta k = \frac{2 \pi}{N}
-.\end{align}
-From this discretization, we can approximate
-\begin{align}
-    \tilde{f}(k) = \sum_{n=0}^{N-1} \frac{\Delta x}{\sqrt{2 \pi}} f(x_{n}) e^{-i k x_{n}} = \frac{\Delta x \sqrt{N}}{\sqrt{2 \pi}} e^{-i k x_0} \frac{1}{\sqrt{N}} \sum_{n=0}^{N-1} f(x_{n}) e^{-i k n \Delta x}
-.\end{align}
-Hence,
-\begin{align}
-    \tilde{f}(k_{m}) = \frac{\Delta x \sqrt{N}}{\sqrt{2 \pi}} e^{-i k_{m} x_0} F_{m}
-.\end{align}
-We can also then perform the inverse fourier transform by writing $F_{m}$ in terms of $\tilde{f}(k_{m})$.
-
 
     
 \end{document}
