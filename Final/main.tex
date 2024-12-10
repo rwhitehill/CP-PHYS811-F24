@@ -287,29 +287,53 @@ If our potential is centered at the origin and has some extent $a$, then we shou
 \label{ssec:square-barrier}
 
 For this section, we consider a potential of the form $V(x) = V_0 [ \Theta(x) - \Theta(x - a) ]$.
-We then have two cases to consider.
-First, if $E < V_0$, or equivalently $k < \sqrt{2 m V_0}$, we find
+We then find the following analytic expression for the transmission probability
 \begin{align}
-    |A(k)| &= \frac{2 m V_0 \sinh(\kappa a)}{\sqrt{4 \kappa^2 k^2 + 4 m^2 V_0^2 \sinh^2(\kappa a)}} \\
-    |B(k)| &= \frac{2 \kappa k}{\sqrt{4 \kappa^2 k^2 + 4 m^2 V_0^2 \sinh^2(\kappa a)}}
-,\end{align}
-where $\kappa = \sqrt{2 m V_0 - k^2}$.
-Alternatively, if $E > V_0$, or equivalently $k > \sqrt{2 m V_0}$, we find
-\begin{align}
-    |A(k)| &= \frac{2 m V_0 |\sin(k' a)|}{\sqrt{4 k'^2 k^2 + 4 m^2 V_0^2 \sin^2(k' a)}} \\
-    |B(k)| &= \frac{2 k' k}{\sqrt{4 k'^2 k^2 + 4 m^2 V_0^2 \sin^2(k' a)}}
-,\end{align}
-where $k' = \sqrt{k^2 - 2 m V_0}$.
+\label{eq:square-barrier-Pt}
+    |B(k)|^2 = 
+    \begin{cases}
+        \dfrac{4 \kappa^2 k^2}{4 \kappa^2 k^2 + 4 m^2 V_0^2 \sinh^2(\kappa a)} & k < \sqrt{2 m V_0} \\
+        \dfrac{k^2 a^2}{k^2 a^2 + 4} & k = \sqrt{2 m V_0} \\
+        \dfrac{4 k'^2 k^2}{4 k'^2 k^2 + 4 m^2 V_0^2 \sin^2(k' a)} & k > \sqrt{2 m V_0}
+    ,\end{cases}
+\end{align}
+where $\kappa^2 = 2 m V_0 - k^2$ and $k' = k^2 - 2 m V_0$.
+In Fig. \ref{fig:square-barrier}, we plot the results of a numerical simulation for this scattering process on top of the exact analytic result for some selected $V_0$, $a$, and $m$.
+We note that our range in $k$ goes up to $m$, which calls into question whether our example indeed is governed by non-relativistic quantum mechanics.
+However, technically speaking, there is no kinematic restriction placed on the values of $k$ by the theory, so for practical purposes we have allowed $k$ to range up to such not quite physical values in order to assess the quality of our simulations, and indeed, we note a relatively good agreement once we reach larger values of $k$.
 
+We remark, though, that as for a typical lattice simulation, we require a significant amount time and computational resources to obtain accurate results\footnote{In order to produce Fig. \ref{fig:square-barrier}, it took 20.5 minutes with four jobs running in parallel at a time.}, and furthermore, there are a number of parameters presented here that can be fine-tuned in order to obtain more accurate results.
+A first general source of error and computational load is the size of our time step.
+By design our method is more accurate when $\Delta t \rightarrow 0$, and it is increasingly important to reduce our time step when $k/m$ is larger so that we do not have our wave packet propagate through our potential without interacting.
+Another source of errors stems from the discrete Fourier transform, although these are slightly more subtle and less explored in this article.
+Lastly, our initial configuration contributes significantly to the computational load required to complete a scattering simulation at a given $k$.
+For example, for smaller $k/m$, as discussed in Sec. \ref{ssec:freely-propagating-gaussian-wave-packet}, we require a larger spread in our initial wave packet, which in turn requires us to keep a larger spatial domain on which to simulate.
+Naively, we should also expect to increase the number of points in our spatial domain when $\sigma$ increases, but this may not quite be the case.
+Recall that the grid spacing in coordinate and momentum space are related as $\Delta x \Delta k = 2 \pi / N$.
+ALthough not done here, we leave for a future work a more extensive study toward understanding how to select $\Delta x$ and $\Delta k$ which are both small enough.
+Of course, in coordinate space, we require $\Delta x$ to be small enough so that our computation of the reflection and transmission probabilities using basic rectangular Riemann sums do not degrade, although this can be improved by using better numerical quadrature techniques as well.
+Meanwhile, we also must ensure that $\Delta k$ is small enough since we design our wave packets such that their Fourier transforms are sharply peaked around a particular momentum.
+Hence, the support on the momentum domain is very narrow, and if $\Delta k$ is not small enough, after evolving in time, we can miss important contributions to the inverse discrete Fourier transform.
 
-\subsection{Dirac-$\delta$ potential}
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{square_barrier.pdf}
+    \caption{\textbf{Top}: Comparison of the transmission probability predicted by Eq. (\ref{eq:square-barrier-Pt}) and by a dynamic numerical simulation of a wave packet. \textbf{Bottom}: Ratio of the numerical to the exact transmission probability for the settings shown in the top panel.}
+    \label{fig:square-barrier}
+\end{figure}
 
 
 
 \section{Conclusions}
 \label{sec:conclusions}
 
-
+In this article, we have studied how to implement unitary time evolution of a wave function and the application of such time evolution to scattering in one dimension.
+For our time evolution, we used the Backer-Campbell-Hausdorff formula to separate the free particle and potential pieces of the Hamiltonian such that over one time step the potential contributes as a phase shift, and the free-particle piece propagates the modes in space.
+While the lattice simulation is time consuming and computationally intensive, it is clear that this method can be quite accurate given those resources and some fine-tuning to the parameters chosen for our simulations.
+Additionally, the time evolution is readily generalizable to two or three dimensions.
+Regarding the finite difference methods, it is perhaps worth studying further the shortcomings described here.
+For example, one may explore whether renormalizing the wave function over time still yields faithful reconstructions of a free Gaussian wave packet as a first step, or perhaps one can implement a higher order formula for the time derivative, which suppresses the error in $\Delta t$ further.
+Nevertheless, as a first step, the results presented in this article indicate a useful method for simulating quantum dynamics for localized potentials and some further steps to improve and expand the simulations shown here in order to produce realistic simulations of physical scattering processes.
 
 
 \appendix
