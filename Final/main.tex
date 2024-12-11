@@ -5,6 +5,10 @@
 
 \begin{document}
 
+\begin{center}
+    \textbf{\Large Numerical quantum scattering in one spatial dimension}
+\end{center}
+
 \section{Introduction}
 \label{sec:introduction}
 
@@ -26,7 +30,7 @@ Finally, in Sec. \ref{sec:conclusions}, we summarize our findings and remark on 
 \subsection{Setting up the problem}
 
 Our problem of interest in this article is one dimensional scattering in non-relativistic quantum mechanics.
-As with all non-relativistic quantum mechanical problems, the fundamental equation governing all dynamics is the Schr\"{o}dinger equation\footnote{Note that we work in natural units where $\hbar = c = 1$. This implies that the time and spatial dimensions are equivalent as well as the energy, momentum, and mass dimansions. Additionally, in this system of units, the spatial and energy dimensions are inverses of each other, which allows us to remain agnostic regarding the exact scales of our problem.}
+As with all non-relativistic quantum mechanical problems, the fundamental equation governing all dynamics is the Schr\"{o}dinger equation\footnote{Note that we work in natural units where $\hbar = c = 1$. This implies that the time and spatial dimensions are equivalent as well as the energy, momentum, and mass dimensions. Additionally, in this system of units, the spatial and energy dimensions are inverses of each other, which allows us to remain agnostic regarding the exact scales of our problem.}
 \begin{align}
 \label{eq:td-S-eq}
     i \pdv{\Psi(x,t)}{t} = -\frac{1}{2m} \dv[2]{\Psi(x,t)}{x} + V(x) \Psi(x,t)
@@ -49,7 +53,7 @@ In this asymptotic region, we can treat our particle as free and describe it as 
 \subsection{Wave packet treatment}
 \label{ssec:wave-packet-treatment}
 
-In order to understand the treatment of wave packets, we consider the case of a $\delta$-function potential given by $V(x) = V_0 \delta(x)$, which although not quite physical illustrates clearly without much technical difficulty.
+In order to understand the treatment of wave packets, we consider the case of a $\delta$-function potential given by $V(x) = V_0 \delta(x)$, which although not quite physical illustrates clearly the main ideas without much technical difficulty.
 Clearly, the asymptotic regions are just $x < 0$ and $x > 0$, where our particle has momentum $\pm k$.
 Although the eigenvalue $E = k^2/2m$ is doubly degenrate then, we choose the one corresponding to, as will become clear, an incident particle traveling from left to right and therefore $k > 0$ such that
 \begin{align}
@@ -165,7 +169,6 @@ However, unlike in the case where we were interested in solving for bound state 
 Therefore, it is somewhat problematic to only receive a finite number of energy eigenvalues which we cannot necessarily gurantee will be centered on any momentum mode or how densely the eigenvalues would be spaced.
 Additionally, for bound states, it is natural to impose Dirichlet conditions since our solutions must vanish in the asymptotic regions, but for the localized potentials here, our solutions will be plane waves.
 Although, our physical wave packet must vanish far from the center, the separable solutions do not.
-Hence, it is not clear from the onset how to a more natural set of boundary conditions on our scattering state solutions.
 
 Because of the difficulties layed out above, instead of solving the time-independent Schr\"{o}dinger equation and splicing together the stationary states as in Eq. (\ref{eq:psi-expansion}), we will solve the time-dependent Schr\"{o}dinger equation directly with the boundary condition at $t = 0$ given by an appropriate wave packet.
 The first attempt made to simulate the time evolution of a wave packet utilized the finite difference method, discretizing our spatial and temporal domain to yield a transfer matrix $U$ which evolved our wave function from one time slice to the next.
@@ -185,7 +188,7 @@ which has solution
 \end{align}
 if $H$ is independent of time as will be the case in our scattering problems.
 Let us write $H = H_0 + V$, where $H_0$ is the free-particle Hamiltonian and $V$ contains the potential terms.
-If we select our time step $\Delta t$ between time slices $t_{m}$ and $t_{m+1}$, then using the Baker-Campbell-Hausdorff formula, we can write
+If we choose our time step $\Delta t$ between time slices $t_{m}$ and $t_{m+1}$ to be small, then using the Baker-Campbell-Hausdorff formula, we can write
 \begin{align}
     U(\Delta t) &= e^{-i H \Delta t} = e^{-i H_0 \Delta t - i V \Delta t} \approx e^{-i H_0 \Delta t} e^{-i V \Delta t} e^{\frac{\Delta t^2}{2} [H_0, V]} \nonumber \\
                 &= e^{-i H_0 \Delta t} e^{-i V \Delta t} \Big( 1 + \frac{\Delta t^2}{2} [H_0,V] + \mathcal{O}(\Delta t^{4}) \Big)
@@ -196,12 +199,12 @@ For sufficiently small time steps, the free particle and potential pieces of the
     &= e^{-i V(x) \Delta t} \int \frac{\dd{k}}{\sqrt{2 \pi}} \widetilde{\Psi}(k,t_{m}) e^{- i k^2 \Delta t / (2m)} e^{i k x}
 ,\end{align}
 where $\widetilde{\Psi}(k,t_{m})$ is the Fourier transform of $\Psi(x,t_{m})$.
-We see explicitly here that for small time steps, our potential changes the phase of the wave-function locally and the free part of the Hamiltonian propagates our modes according to the velocity $k/m$.
+Thus, for small time steps our potential changes the phase of the wave-function locally while the free part of the Hamiltonian propagates our modes according to the velocity $k/m$.
 
 Because the above equation is set up on the continuous spatial domain we could set up our wave-packets as functions numerically and implement a numerical quadrature to take the Fourier transform at each $x$, but this could become quite computationally expensive both regarding resources and time.
 We could, however, discretize our spatial domain and use the discrete Fourier transform (DFT), computed via the fast-fourier transform method.
 
-We note that in practice, we cannot simply replace the CFT with a DFT and evaluate at the spatial grid points: we must include a few factors to correctly obtain the CFT from the DFT.
+We note that in practice, we cannot simply replace the continuous Fourier transform (CFT) with a DFT and evaluate at the spatial grid points: we must include a few factors to correctly obtain the CFT from the DFT.
 For brevity, consider some square integrable function $f(x)$.
 The expressions we use for the continuous fourier and inverse fourier transforms of $f(x)$ are as follows:
 \begin{align}
@@ -273,15 +276,14 @@ where $\sigma_{t}$ represents the spread of our wave packet at time $t$.
 Hence, if we simulate for a time $T$ before reaching asymptotic final states, then we should have $T^2 / 4 \sigma^{4} m^2 \ll 1$.
 \textit{A priori}, though, we do not know for how long we should simulate.
 Thus, if we place our incident wave packet at $x_{I}(t = 0) = x_0$ and expect roughly that the total time $T \approx 2 x_0 m / k$, then we should have $x_0^2 / \sigma^{4} k^2 \ll 1$.
-A natural length scale is the initial spread of the wave packet $\sigma$.
-Hence, if we further define $x_0 = M_2 \sigma$, we obtain
+A natural length scale is the initial spread of the wave packet $\sigma$, so if we further define $x_0 = M_2 \sigma$, we obtain
 \begin{align}
     \sigma \gg \frac{M_2}{k}
 .\end{align}
 Thus, we can select some $M_1$ such that $\sigma = M_1 M_2 / k$ and the equation above is satisfied to some tolerance.
 As another consideration, we must place our wave packet far away from the potential at $t = 0$.
-How far is far?
-If our potential is centered at the origin and has some extent $a$, then we should select $M_2$ as defined above such that the probability of finding our particle at $t = 0$ in the region $x > -a/2$ is negligibly small.
+But how far is far?
+If our potential is centered at the origin and has some extent $a$, then we should select $M_2$ as defined above such that the probability of finding our particle at $t = 0$ in the region $x > -a/2$ is negligibly small, or practically speaking below some tolerance.
 
 \subsection{Square barrier}
 \label{ssec:square-barrier}
@@ -300,7 +302,7 @@ We then find the following analytic expression for the transmission probability
 where $\kappa^2 = 2 m V_0 - k^2$ and $k' = k^2 - 2 m V_0$.
 In Fig. \ref{fig:square-barrier}, we plot the results of a numerical simulation for this scattering process on top of the exact analytic result for some selected $V_0$, $a$, and $m$.
 We note that our range in $k$ goes up to $m$, which calls into question whether our example indeed is governed by non-relativistic quantum mechanics.
-However, technically speaking, there is no kinematic restriction placed on the values of $k$ by the theory, so for practical purposes we have allowed $k$ to range up to such not quite physical values in order to assess the quality of our simulations, and indeed, we note a relatively good agreement once we reach larger values of $k$.
+However, technically speaking, there is no kinematic restriction placed on the values of $k$ by the theory, so for practical purposes we have allowed $k$ to range up to such not quite physical values in order to assess the quality of our simulations without resorting to lengthy calculations, and indeed, we note a relatively good agreement once we reach larger values of $k$.
 
 We remark, though, that as for a typical lattice simulation, we require a significant amount time and computational resources to obtain accurate results\footnote{In order to produce Fig. \ref{fig:square-barrier}, it took 20.5 minutes with four jobs running in parallel at a time.}, and furthermore, there are a number of parameters presented here that can be fine-tuned in order to obtain more accurate results.
 A first general source of error and computational load is the size of our time step.
@@ -341,16 +343,12 @@ Nevertheless, as a first step, the results presented in this article indicate a 
 \section{Finite differences}
 \label{app:finite-differences}
 
-For our first numerical method, we solve the time-dependent Schr\"{o}dinger equation 
-\begin{align}
-    i \pdv{\Psi(x,t)}{t} = -\frac{1}{2m} \pdv[2]{\Psi(x,t)}{x} + V(x) \Psi(x,t)
-.\end{align}
-directly by implementing a finite difference scheme.
-Using a forward difference formula for the time deriva, the three-point formula for the second derivative, and rearranging, we obtain
+In Sec. \ref{ssec:numerical-techniques-for-unitary-time-evolution}, we alluded to the possibility of using finite difference formulas to determine our wave function at times $t > 0$ from some specified initial condition at $t = 0$.
+Using a forward difference formula for the time derivative, the three-point formula for the second derivative, and rearranging, we obtain
 \begin{align}
     \Psi_{n}^{(m + 1)} = \Psi_{n}^{(m)} + i \Delta t \Bigg( \frac{\Psi_{n-1}^{(m)} - 2 \Psi_{n}^{(m)} + \Psi_{n+1}^{(m)}}{2m \Delta x^2} - V_{n} \Psi_{n}^{(m)} \Bigg)
 ,\end{align}
-where $\Psi_{n}^{(m)} = \Psi(x_n,t_{m})$, $x_{n} = x_0 + n \Delta x$, and $t_{m} = m \Delta t$.
+as a discretized version of the Schr\"{o}dinger equation, where $\Psi_{n}^{(m)} = \Psi(x_n,t_{m})$, $x_{n} = x_0 + n \Delta x$, and $t_{m} = m \Delta t$.
 Thus, we have a sequence defined by $\Psi_{n}^{(m)} = U^{m} \Psi_{n}^{(0)}$, where
 \begin{align}
     U_{kn} = \delta_{kn} - i \Delta t H_{kn}
@@ -359,44 +357,51 @@ where the discretized Hamiltonian
 \begin{align}
     H_{kn} = -\frac{\delta_{k-1,n} - 2 \delta_{kn} + \delta_{k+1,n}}{2m \Delta x^2} + V_{k} \delta_{kn}
 .\end{align}
-Such an equation reminds us of the unitary time evolution, which can be explored by direct matrix multiplication:
+This forms the basis of an explicit forward evolution scheme.
+On the other hand, though, we could have used a backward difference formula for the time derivative and obtained $\Psi^{(m)} = U'^{-m} \Psi^{(0)}$, where $U'_{kn} = \delta_{kn} + i \Delta t H_{kn}$, which forms the basis of an implicit evolution scheme.
+
+Because it is a fundamental tenet of quantum mechanics, we should ensure that the matrices being used to perform the time evolution are unitary, or at least approximately so.
+For the explicit scheme, we check by direct multiplication:
 \begin{align}
     U_{kn}^{\dagger} U_{nk'} &= ( \delta_{kn} + i \Delta t H_{kn}^{\dagger} ) ( \delta_{nk'} - i \Delta t H_{nk'} ) = \delta_{k k'} + i \Delta t ( H_{kk'}^{\dagger} - H_{kk'} ) + \Delta t^2 H_{kn}^{\dagger} H_{nk'} \nonumber \\
     &= \delta_{kk'} + \mathcal{O}(\Delta t^2)
 .\end{align}
-Herein lies a primary difficulty of implementing this method: the eigenvalues of $U$ essentially scale the eigenvector components of our initial wavevector.
-Hence, for stability, we would like to select $\Delta t$ and $\Delta x$ such that all of these eigenvalues are less than one.
-Unfortunately, this is not possible since the eigenvalues of a unitary matrix have unit norm, prohibiting us from performing our time evolution in this manner.
+A similar formula holds for the implicit evolution scheme.
+As mentioned above, herein lies a primary difficulty of implementing a finite difference method for the time evolution.
+Although this formula indicates that our time evolution is essentially unitary over a single time step, over many steps the error accumulates to a significant and non-negligible level, and at such time, we violate probability conservation, which is essential to the interpretation of quantum mechanics and therefore our simulations.
 
-{\color{red} 
-    Make plots demonstrating instability.
-}
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{finite_differences-evolution.pdf}
+    \caption{Demonstration of the instability of the explicit and implicit finite difference methods for evolving a wave function, chosen to be a Gaussian, forward in time.}
+    \label{fig:finite-differences-evolution}
+\end{figure}
 
 
-\section{Stability of the explicit and implicit finite difference methods}
-\label{app:stability-of-the-explicity-and-implicit-finite-difference-methods}
-
-In this work, the operators we deal with are typically either hermitian or unitary, both of which are special cases of the broader class of normal matrices $A$ which commute with their hermitian conjugate $A^{\dagger}$.
-There is a theorem of equivalence statements in linear algebra that defines a normal matrix and states that any normal matrix $A$ is diagonalizable via a unitary similarity transformation and that there exists a set of eigenvectors which forms an complete orthonormal basis for the $n$-dimensional vector space.
-Let us denote the spectrum of $A$ by the set $\{ a_{n} \}$ and the corresponding set of eigenvectors by $\{ x^{(n)} \}$
-Thus, any vector $\Psi$, which is analogous to our discretized wave-function, we can write
+Another way of looking at the stability of our finite difference methods is the following.
+Recall from linear algebra that a unitary operator admits a set of eigenvectors which form a basis of our space of interest.
+While our finite matrices violate unitarity at the level of $\Delta t^2$, we can approximately for this argument approximately say that the eigenvectors of our finite matrices span our discretized space.
+Let us denote the spectrum of $U$ by the set $\{ u_{n} \}$ and the corresponding set of eigenvectors by $\{ \phi^{(n)} \}$
+Thus, any vector $\Psi$, which is analogous to our discretized wave-function, can be expanded as
 \begin{align}
-    \Psi = \sum_{n} c_{n} x^{(n)}
+    \Psi = \sum_{n} c_{n} \phi^{(n)}
 ,\end{align}
 where $c_{n} = \Psi^{\dagger} x^{(n)}$.
-It follows then, that repeated action of $A$ on $\Psi$ yields
+It follows then, that repeated action of $U$ on $\Psi$ yields
 \begin{align}
-    \Psi^{(k)} = A^{k} \Psi = \sum_{n} c_{n} a_{n}^{k} x^{(n)}
+    \Psi^{(k)} = U^{k} \Psi = \sum_{n} c_{n} u_{n}^{k} x^{(n)}
 .\end{align}
-If we now consider $A$ to be nearly unitary, as in the finite difference methods above for time-evolution, then we see our fundamental issue with implementing the finite difference methods above.
-Indeed, because of the discretization effects, our eigenvalues $a_{n}$ have approximately unit norm but not quite.
+Because of the discretization effects, our eigenvalues $u_{n}$ have approximately unit norm but not quite.
 Thus, for large times (i.e. in the limit $k \rightarrow \infty$), we have
 \begin{align}
-    A^{k} \Psi \rightarrow c_{n_{\rm max}} a_{n_{\rm max}}^{k} x^{(n_{\rm max})}
+    U^{k} \Psi \rightarrow c_{n_{\rm max}} u_{n_{\rm max}}^{k} \phi^{(n_{\rm max})}
 ,\end{align}
-where $n_{\rm max} = {\rm argmax}(\{ a_{n} \})$.
-Hence, if $a_{n_{\rm max}} > 1$, then our solution explodes, and if $a_{\rm max} < 1$, then our solution vanishes at large times.
-Of course then, even the slightest bit of unitarity violation in our matrix evolution is a fatal flaw for a finite difference method propagating the entire wave-function, both its real and imaginary parts, at equal times.
+where $n_{\rm max} = {\rm argmax}(\{ |u_{n}| \})$.
+Hence, if $|u_{n_{\rm max}}| > 1$ our solution explodes, and if $a_{\rm max} < 1$ our solution vanishes at large times.
+Of course then, even the slightest bit of unitarity violation in our matrix evolution will scale with the number of time steps, which is demonstrated by Fig. \ref{fig:finite-differences-evolution}.
+Although not shown here, the explicit evolution matrix has eigenvalues with norm larger than one, implying that $\Psi \rightarrow \infty$ in the limit $t \rightarrow \infty$, while on the other hand, the eigenvalues have norm less than one for the implicit evolution matrix and $\Psi \rightarrow 0$ in the limit $t \rightarrow \infty$, which is clearly observed in the figure.
+While not explored here, it is perhaps possible that the error in the finite difference steps is predominately a scaling one.
+If this is the case, then one could still employ the finite difference method and renormalize the wave function after some number of iterations.
 
     
 \end{document}
